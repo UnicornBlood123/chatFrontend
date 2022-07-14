@@ -9,4 +9,5 @@ export interface IDialogItemComponent {
   isMe: boolean;
   text: string;
   unread: number;
+  onRemoveDialog: (id: string) => void;
 }

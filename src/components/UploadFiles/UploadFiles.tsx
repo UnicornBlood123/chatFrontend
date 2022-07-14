@@ -3,7 +3,6 @@ import type { UploadFile } from "antd/es/upload/interface";
 import * as S from "./UploadFiles.styles";
 import React, { useState } from "react";
 import { IUploadFilesComponent } from "./UploadFiles.interfaces";
-import { IAttachment } from "../../redux/interfaces/messages.interfaces";
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {

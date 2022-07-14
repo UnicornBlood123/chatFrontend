@@ -23,12 +23,11 @@ const Messages = ({ user, inputRef }: IMessagesContainer) => {
   )[0];
 
   const getPartner = () => {
-    if (currentDialog) {
-      return user._id === currentDialog.partner._id
+    return currentDialog
+      ? user._id === currentDialog.partner._id
         ? currentDialog.author
-        : currentDialog.partner;
-    }
-    return user;
+        : currentDialog.partner
+      : user;
   };
 
   const toggleIsTyping = ({ typingUser }: { typingUser: IUser }) => {
@@ -54,9 +53,8 @@ const Messages = ({ user, inputRef }: IMessagesContainer) => {
   }, [currentDialogsId]);
 
   useEffect(() => {
-    if (messagesRef.current) {
+    messagesRef.current &&
       messagesRef.current.scrollTo(0, messagesRef.current.scrollHeight);
-    }
   }, [messages, isTyping]);
 
   useEffect(() => {
@@ -75,10 +73,9 @@ const Messages = ({ user, inputRef }: IMessagesContainer) => {
         messageId: string;
         lastMessage: IMessageItems;
       }) => {
-        if (authorId !== user._id) {
-          dispatch(messagesActions.removeMessageFromState(messageId));
+        authorId !== user._id &&
+          dispatch(messagesActions.removeMessageFromState(messageId)) &&
           dispatch(dialogsActions.setLastMessage(lastMessage) as any);
-        }
       }
     );
     return () => {

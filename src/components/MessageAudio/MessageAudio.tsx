@@ -13,11 +13,7 @@ const MessageAudio = ({ audio }: IMessageAudioComponent) => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const togglePlay = () => {
-    if (!isPlay) {
-      audioRef.current?.play();
-    } else {
-      audioRef.current?.pause();
-    }
+    !isPlay ? audioRef.current?.play() : audioRef.current?.pause();
   };
 
   useEffect(() => {

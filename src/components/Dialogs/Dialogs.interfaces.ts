@@ -7,4 +7,5 @@ export interface IDialogsComponent {
   onSearch: (value: string) => void;
   isLoading: boolean;
   selectDialog: null | string;
+  onRemoveDialog: (id: string) => void;
 }

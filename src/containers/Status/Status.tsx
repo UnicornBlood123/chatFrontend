@@ -10,12 +10,6 @@ const Status = ({ user }: IStatusContainer) => {
   const dialogs = useSelector((state: IState) => state.dialogs);
   const currentDialogId = dialogs.currentDialogId;
 
-  if (!currentDialogId || !dialogs.items.length) {
-    return null;
-  }
-
-  let partner: IUser;
-
   const currentDialog: IDialogItems = dialogs.items.filter(
     (dialog: IDialogItems) => dialog._id === currentDialogId
   )[0];
@@ -24,12 +18,15 @@ const Status = ({ user }: IStatusContainer) => {
     return null;
   }
 
-  if (currentDialog?.author._id === user._id) {
-    partner = currentDialog.partner;
-  } else {
-    partner = currentDialog.author;
-  }
-  return <BaseStatus online={partner.isOnline} fullname={partner.fullname} />;
+  let partner: IUser;
+
+  currentDialog && currentDialog?.author._id === user._id
+    ? (partner = currentDialog.partner)
+    : (partner = currentDialog.author);
+
+  return currentDialog ? (
+    <BaseStatus online={partner.isOnline} fullname={partner.fullname} />
+  ) : null;
 };
 
 export default Status;

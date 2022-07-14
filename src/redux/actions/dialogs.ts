@@ -19,6 +19,14 @@ const actions = {
     }
   },
 
+  removeDialogById: (id: string) => (dispatch: Dispatch<any>) => {
+    if (window.confirm("Вы действительно хотите удалить диалог?")) {
+      dialogsApi.removeById(id).then(() => {
+        dispatch(actions.removeDialogFromState(id));
+      });
+    }
+  },
+
   setIsLoading: (bool: boolean) => ({
     type: "DIALOGS:SET_IS_LOADING",
     payload: bool,

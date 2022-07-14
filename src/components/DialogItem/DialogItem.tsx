@@ -6,6 +6,8 @@ import { Avatar, IconRead } from "../index";
 import { IDialogItemComponent } from "./DialogItem.interfaces";
 import Paths from "../../pages/routes";
 import emoji from "react-easy-emoji";
+import { Button, Popover } from "antd";
+import { EllipsisOutlined } from "@ant-design/icons/lib/icons";
 
 const time = (date: Date) => {
   if (isToday(date)) {
@@ -22,9 +24,14 @@ const DialogItem = ({
   message,
   selectDialog,
   unread,
+  onRemoveDialog,
 }: IDialogItemComponent) => {
   const getAudio = () => {
     return message.attachments.filter((el) => el.ext === "webm")[0];
+  };
+
+  const removeDialog = () => {
+    onRemoveDialog(_id);
   };
 
   return (
@@ -37,6 +44,16 @@ const DialogItem = ({
           <S.DialogItemInfoTop>
             <b>{user.fullname}</b>
             <span>{time(new Date(message.createdAt))}</span>
+            <S.DialogActions>
+              <Popover
+                content={<Button onClick={removeDialog}>удалить</Button>}
+              >
+                <S.DialogActionsButton
+                  size={"small"}
+                  icon={<EllipsisOutlined />}
+                />
+              </Popover>
+            </S.DialogActions>
           </S.DialogItemInfoTop>
           <S.DialogItemInfoBottom>
             <S.MessageAvatar>

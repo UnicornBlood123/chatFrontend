@@ -42,14 +42,14 @@ const ChatInput = ({
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      if (emojiRef.current && emojiButtonRef.current) {
+      emojiRef.current &&
+        emojiButtonRef.current &&
         !inputRef.current?.resizableTextArea?.textArea.contains(
           e.target as Node
         ) &&
-          !emojiButtonRef.current?.contains(e.target as Node) &&
-          !emojiRef.current?.contains(e.target as Node) &&
-          setEmojiPickerVisible(false);
-      }
+        !emojiButtonRef.current?.contains(e.target as Node) &&
+        !emojiRef.current?.contains(e.target as Node) &&
+        setEmojiPickerVisible(false);
     };
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);
@@ -71,6 +71,10 @@ const ChatInput = ({
     onSendMessage(value, dialogId, attachments);
   };
 
+  const selectFiles = (files: File) => {
+    onSelectFiles(files);
+  };
+
   const onEmojiClick = (
     event: React.MouseEvent<Element, MouseEvent>,
     { emoji }: IEmojiData
@@ -90,18 +94,15 @@ const ChatInput = ({
   };
 
   useEffect(() => {
-    if (inputRef.current) {
+    inputRef.current &&
       inputRef.current?.resizableTextArea?.textArea.setSelectionRange(
         cursorPosition,
         cursorPosition
       );
-    }
   }, [cursorPosition]);
 
   useEffect(() => {
-    if (inputRef.current && emojiPickerVisible) {
-      inputRef.current.focus();
-    }
+    inputRef.current && emojiPickerVisible && inputRef.current.focus();
   }, [emojiPickerVisible]);
 
   return (
@@ -137,7 +138,7 @@ const ChatInput = ({
                 <S.ChatInputActions>
                   <S.UploadFiels>
                     <UploadField
-                      onFiles={(files: File) => onSelectFiles(files)}
+                      onFiles={selectFiles}
                       uploadProps={{
                         accept: ".jpg,.png,.gif,.jpeg,.bmp",
                         multiple: "multiple",

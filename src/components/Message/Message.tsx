@@ -7,6 +7,7 @@ import { EllipsisOutlined } from "@ant-design/icons/lib/icons";
 import { Button, Popover } from "antd";
 // @ts-ignore
 import emoji from "react-easy-emoji";
+import { IAttachment } from "../../redux/interfaces/messages.interfaces";
 
 const Message = ({
   _id,
@@ -31,6 +32,10 @@ const Message = ({
 
   const getAudio = () => {
     return attachments.filter((el) => el.ext === "webm")[0];
+  };
+
+  const clickImage = (item: IAttachment) => {
+    onClickImage(item.url);
   };
 
   return (
@@ -97,7 +102,7 @@ const Message = ({
                   {attachments.map((item, i) => (
                     <S.MessageAttachmentsItem
                       key={i}
-                      onClick={() => onClickImage(item.url)}
+                      onClick={clickImage.bind(this, item)}
                     >
                       <img src={item.url} alt={item.filename} />
                     </S.MessageAttachmentsItem>

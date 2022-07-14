@@ -142,12 +142,10 @@ const ChatInput = ({ inputRef, user }: IChatInputContainer) => {
       (attachments.length > 0 &&
         attachments.every((item: IAttachment) => item.status === "done"))
     ) {
-      {
-        messagesActions.fetchSendMessage(value, dialogId, attachments);
-        setValue("");
-        setEmojiPickerVisible(false);
-        setAttachments([]);
-      }
+      messagesActions.fetchSendMessage(value, dialogId, attachments);
+      setValue("");
+      setEmojiPickerVisible(false);
+      setAttachments([]);
     }
   };
 

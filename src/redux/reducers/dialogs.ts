@@ -1,5 +1,4 @@
 import { IDialogItems, IDialogs } from "../interfaces/dialogs.interfaces";
-import { IMessageItems } from "../interfaces/messages.interfaces";
 
 const initialState: IDialogs = {
   items: [],

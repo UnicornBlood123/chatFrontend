@@ -1,12 +1,29 @@
 import styled, { css } from "styled-components";
-
-import {
-  IconMessageNoRead,
-  IconMessageRead,
-} from "../IconRead/IconRead.styles";
 import { ITheme } from "../../theme/theme.interfaces";
 import { Link } from "react-router-dom";
 import { Avatar } from "../Avatar/Avatar.styles";
+import { ChatSidebarButton } from "../../pages/Home/Home.styles";
+
+export const DialogActions = styled.div`
+  width: 18px;
+  height: 18px;
+  padding-left: 4px;
+  .ant-btn-icon-only.ant-btn-sm {
+    width: 18px;
+    height: 18px;
+    font-size: 14px;
+  }
+`;
+
+export const DialogActionsButton = styled(ChatSidebarButton)`
+  display: none;
+  transform: rotate(90deg);
+  box-shadow: none;
+  &:hover {
+    background-color: ${({ theme: { colors } }) => colors.gray};
+  }
+  background-color: ${({ theme: { colors } }) => colors.gray};
+`;
 
 export const LinkStyled = styled(Link)`
   color: ${({ theme: { colors } }: ITheme) => colors.black};
@@ -75,6 +92,9 @@ export const DialogItem = styled.div<{ isSelected: boolean }>`
   &:hover {
     background-color: ${({ theme: { colors } }) => colors.gray};
     cursor: pointer;
+    ${DialogActionsButton} {
+      display: block;
+    }
   }
 
   ${({ isSelected }) =>

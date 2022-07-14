@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import * as S from "./App.styles";
 import { Auth, Home } from "../../pages";
-import { Navigate, Route, Routes, useNavigate } from "react-router";
+import { Route, Routes, useNavigate } from "react-router";
 import Paths from "../../pages/routes";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../redux/interfaces/state.interfaces";

@@ -7,6 +7,7 @@ const getAxios = {
       partner: partnerId,
       text: text,
     }),
+  removeById: (id: string) => axios.delete("./dialogs/" + id),
 };
 
 export default getAxios;

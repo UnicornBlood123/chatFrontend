@@ -1,7 +1,7 @@
 import { usersApi } from "../../utils/api";
 import openNotificationWithIcon from "../../utils/helpers/openNotification";
 import Paths from "../../pages/routes";
-import { AnyAction, Dispatch } from "redux";
+import { Dispatch } from "redux";
 
 const actions = {
   setUserData: (data: any) => ({
@@ -38,13 +38,13 @@ const actions = {
       .login(postData)
       .then(({ data }: any) => {
         if (data.status === "success") {
-          window.location.href = Paths.HOME;
           openNotificationWithIcon({
             text: "Авторизация прошла успешно",
             title: "Успех",
             type: data.status,
           });
         }
+        window.location.href = Paths.HOME;
         window.axios.defaults.headers.common["token"] = data.token;
         window.localStorage["token"] = data.token;
         dispatch(actions.fetchUserData());
@@ -60,14 +60,27 @@ const actions = {
       });
   },
 
-  fetchUserRegistration: (postData: any) => (dispatch: Dispatch) => {
+  fetchUserRegistration: (postData: any) => {
     return usersApi
       .registration(postData)
-      .then(({ data }: any) => {
+      .then(({ data }) => {
+        if (data.status === "success") {
+          openNotificationWithIcon({
+            text: "Регистрация прошла успешно",
+            title: "Успех",
+            type: data.status,
+          });
+        }
         window.location.href = Paths.VERIFY;
       })
       .catch(({ response }) => {
-        console.log(response.data);
+        if (response.data.status === "error") {
+          openNotificationWithIcon({
+            text: `${response.data.message}`,
+            title: "Ошибка регистрации",
+            type: response.data.status,
+          });
+        }
       });
   },
 };

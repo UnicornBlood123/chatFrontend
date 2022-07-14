@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import * as S from "./Dialogs.styles";
 import { DialogItem } from "../index";
 import { orderBy } from "lodash";
@@ -12,13 +12,15 @@ const Dialogs = ({
   onSearch,
   isLoading,
   selectDialog,
+  onRemoveDialog,
 }: IDialogsComponent) => {
+  const search = (e: ChangeEvent<HTMLInputElement>) => {
+    onSearch(e.target.value);
+  };
+
   return (
     <>
-      <S.DialogsSearch
-        placeholder="Поиск среди контактов"
-        onChange={(e) => onSearch(e.target.value)}
-      />
+      <S.DialogsSearch placeholder="Поиск среди контактов" onChange={search} />
       <S.Dialogs>
         {isLoading && !items.length ? (
           <S.DownloadDialogs size={"large"} tip="Загрузка диалогов..." />
@@ -26,6 +28,7 @@ const Dialogs = ({
           orderBy(items, ["created_at"], ["desc"]).map(
             (item: IDialogItems, i) => (
               <DialogItem
+                onRemoveDialog={onRemoveDialog}
                 selectDialog={selectDialog}
                 key={i}
                 isMe={item.lastMessage.user._id === user._id}
