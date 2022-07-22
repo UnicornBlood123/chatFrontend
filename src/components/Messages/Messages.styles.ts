@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { Empty } from "antd";
 import { Spin } from "antd";
 
-export const Messages = styled.div<{ inputSize: any }>`
+export const Messages = styled.div<{ inputSize: number }>`
   position: relative;
-  height: calc(100% - 138px + 80px - ${(props) => props.inputSize}px);
+  height: calc(100% - 138px + 80px - ${(props): number => props.inputSize}px);
   overflow: auto;
 `;
 

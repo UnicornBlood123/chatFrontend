@@ -10,8 +10,8 @@ export const MessageAudioProgress = styled.div<{ progress: number }>`
   position: absolute;
   left: 0;
   top: 0;
-  background: ${({ theme: { colors } }) => colors.progress_audio_color};
-  width: ${(props) => props.progress}%;
+  background: ${({ theme: { colors } }): string => colors.progress_audio_color};
+  width: ${(props): number => props.progress}%;
   height: 100%;
   transition: width 0.3s ease;
 `;
@@ -29,7 +29,7 @@ export const MessageAudioButton = styled.div`
     width: 28px;
     height: 28px;
     border-radius: 30px;
-    background: ${({ theme: { colors } }) => colors.purple};
+    background: ${({ theme: { colors } }): string => colors.purple};
     border: 0;
     img {
       height: 15px;
@@ -41,7 +41,7 @@ export const MessageAudioDuration = styled.span`
   font-size: 12px;
   opacity: 0.5;
   font-weight: 500;
-  color: ${({ theme: { colors } }) => colors.white};
+  color: ${({ theme: { colors } }): string => colors.white};
 `;
 
 export const MessageAudioWave = styled.div``;

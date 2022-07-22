@@ -4,7 +4,7 @@ import "reset-css";
 
 export const Wrapper = styled.div`
   height: 100%;
-  color: ${({ theme: { colors } }) => colors.black};
+  color: ${({ theme: { colors } }): string => colors.black};
   font-size: 14px;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,

@@ -29,7 +29,7 @@ export const ChatButton = styled(Button)`
   &:focus,
   &:active {
     opacity: 1;
-    color: ${({ theme: { colors } }) => colors.black};
+    color: ${({ theme: { colors } }): string => colors.black};
   }
   span {
     font-size: 20px;
@@ -65,7 +65,7 @@ export const ChatButtonSmile = styled(Button)`
   &:focus,
   &:active {
     opacity: 1;
-    color: ${({ theme: { colors } }) => colors.black};
+    color: ${({ theme: { colors } }): string => colors.black};
   }
   span {
     font-size: 20px;
@@ -91,7 +91,7 @@ export const UploadFiels = styled.div`
   &:hover {
     span {
       opacity: 1;
-      color: ${({ theme: { colors } }) => colors.black};
+      color: ${({ theme: { colors } }): string => colors.black};
     }
   }
 `;
@@ -121,7 +121,7 @@ export const Emoji = styled.div<{
   position: absolute;
   bottom: 70px;
   z-index: 1;
-  display: ${(props) => (props.emojiPickerVisible ? "" : "none")};
+  display: ${(props): string => (props.emojiPickerVisible ? "" : "none")};
 `;
 
 export const iframeStyled = styled.iframe`

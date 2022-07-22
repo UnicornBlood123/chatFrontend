@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import * as S from "./Messages.styles";
 import Message from "../Message/Message";
 import { IMessagesComponent } from "./Messages.interfaces";
@@ -14,25 +14,24 @@ const Messages = ({
   haveCurrentDialog,
   isTyping,
   partner,
-}: IMessagesComponent) => {
-  const [inputSize, setInputSize] = useState(0);
-  useEffect(() => {
-    inputRef.current &&
-      inputRef.current.contentWindow &&
-      inputRef.current.contentWindow.addEventListener("resize", () => {
-        setInputSize(inputRef.current?.contentWindow?.innerHeight || 0);
-      });
+}: IMessagesComponent): ReactElement => {
+  const [inputSize, setInputSize] = useState<number>(0);
+  useEffect((): (() => void) => {
+    inputRef?.current?.contentWindow?.addEventListener("resize", (): void => {
+      setInputSize(inputRef.current?.contentWindow?.innerHeight ?? 0);
+    });
 
     return () => {
-      inputRef.current &&
-        inputRef.current.contentWindow &&
-        inputRef.current.contentWindow.removeEventListener("resize", () => {});
+      inputRef?.current?.contentWindow?.removeEventListener("resize", () => {
+        setInputSize(inputRef.current?.contentWindow?.innerHeight ?? 0);
+      });
     };
   }, []);
 
   useEffect(() => {
-    blockRef?.current &&
+    if (blockRef?.current) {
       blockRef?.current.scrollTo(0, blockRef.current.scrollHeight);
+    }
   }, [inputSize]);
 
   return (

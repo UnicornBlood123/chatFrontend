@@ -1,10 +1,10 @@
 import tinycolor from "tinycolor2";
 
-const getCorrectNumber = (number: number) => {
+const getCorrectNumber = (number: number):number => {
   return number > 255 ? 255 : number < 0 ? 0 : number;
 };
 
-const avatar = (hash: string) => {
+const avatar = (hash: string): {color:string, lightenColor:string} => {
   const [r, g, b] = hash
     .substr(0, 3)
     .split("")

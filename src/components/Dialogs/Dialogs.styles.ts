@@ -12,7 +12,7 @@ export const Dialogs = styled.div`
 export const DialogsSearch = styled(Search)`
   padding: 22px 20px 20px 20px;
   input {
-    background-color: ${({ theme: { colors } }) => colors.bright_grey};
+    background-color: ${({ theme: { colors } }): string => colors.bright_grey};
     border: 0;
     height: 38px;
     padding: 4px 11px 6px;

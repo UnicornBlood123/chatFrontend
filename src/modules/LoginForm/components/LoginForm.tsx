@@ -1,13 +1,13 @@
-import React from "react";
+import { ReactElement } from "react";
 import { Form, Input } from "antd";
 import * as S from "./LoginForm.styles";
 import LockOutlined from "@ant-design/icons/lib/icons/LockOutlined";
 import MailOutlined from "@ant-design/icons/lib/icons/MailOutlined";
-import { validateField } from "../../../utils/helpers";
+import validateField from "../../../utils/validateField";
 import { Button } from "../../../components";
 import Paths from "../../../pages/routes";
 import { FormikProps } from "formik";
-import { FormValues } from "./LoginForm.interfaces";
+import { ILoginFormValues } from "./LoginForm.interfaces";
 
 const LoginForm = ({
   touched,
@@ -16,7 +16,7 @@ const LoginForm = ({
   handleBlur,
   handleSubmit,
   isSubmitting,
-}: FormikProps<FormValues>) => {
+}: FormikProps<ILoginFormValues>): ReactElement => {
   return (
     <>
       <S.AuthTop>

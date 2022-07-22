@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactElement } from "react";
 import * as S from "./DialogItem.styles";
 import isToday from "date-fns/isToday";
 import format from "date-fns/format";
@@ -8,13 +8,13 @@ import Paths from "../../pages/routes";
 import emoji from "react-easy-emoji";
 import { Button, Popover } from "antd";
 import { EllipsisOutlined } from "@ant-design/icons/lib/icons";
+import { IAttachment } from "../../redux/interfaces/messages.interfaces";
 
-const time = (date: Date) => {
+const time = (date: Date): string => {
   if (isToday(date)) {
     return format(date, "HH:mm");
-  } else {
-    return format(date, "dd.MM.yyyy");
   }
+  return format(date, "dd.MM.yyyy");
 };
 
 const DialogItem = ({
@@ -25,12 +25,12 @@ const DialogItem = ({
   selectDialog,
   unread,
   onRemoveDialog,
-}: IDialogItemComponent) => {
-  const getAudio = () => {
+}: IDialogItemComponent): ReactElement => {
+  const getAudio = (): IAttachment => {
     return message.attachments.filter((el) => el.ext === "webm")[0];
   };
 
-  const removeDialog = () => {
+  const removeDialog = (): void => {
     onRemoveDialog(_id);
   };
 

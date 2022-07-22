@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css, FlattenInterpolation } from "styled-components";
 import { ITheme } from "../../theme/theme.interfaces";
 import { Link } from "react-router-dom";
 import { Avatar } from "../Avatar/Avatar.styles";
@@ -20,15 +20,15 @@ export const DialogActionsButton = styled(ChatSidebarButton)`
   transform: rotate(90deg);
   box-shadow: none;
   &:hover {
-    background-color: ${({ theme: { colors } }) => colors.gray};
+    background-color: ${({ theme: { colors } }): string => colors.gray};
   }
-  background-color: ${({ theme: { colors } }) => colors.gray};
+  background-color: ${({ theme: { colors } }): string => colors.gray};
 `;
 
 export const LinkStyled = styled(Link)`
-  color: ${({ theme: { colors } }: ITheme) => colors.black};
+  color: ${({ theme: { colors } }: ITheme): string => colors.black};
   &:hover {
-    color: ${({ theme: { colors } }: ITheme) => colors.black};
+    color: ${({ theme: { colors } }: ITheme): string => colors.black};
   }
 `;
 
@@ -66,22 +66,25 @@ export const DialogItemAvatar = styled.div<{
     height: 100%;
     border-radius: 50%;
   }
-  ${({ isOnline }) =>
-    isOnline &&
-    css`
-      &::before {
-        display: block;
-        position: absolute;
-        right: 0;
-        content: "";
-        background-color: ${({ theme: { colors } }: ITheme) => colors.green};
-        border-radius: 30px;
-        width: 13px;
-        height: 13px;
-        border: 3px solid ${({ theme: { colors } }: ITheme) => colors.white};
-        bottom: -2px;
-      }
-    `}
+  ${({ isOnline }): FlattenInterpolation<any> =>
+    isOnline
+      ? css`
+          &::before {
+            display: block;
+            position: absolute;
+            right: 0;
+            content: "";
+            background-color: ${({ theme: { colors } }: ITheme): string =>
+              colors.green};
+            border-radius: 30px;
+            width: 13px;
+            height: 13px;
+            border: 3px solid
+              ${({ theme: { colors } }: ITheme): string => colors.white};
+            bottom: -2px;
+          }
+        `
+      : css``}
 `;
 
 export const DialogItem = styled.div<{ isSelected: boolean }>`
@@ -90,19 +93,20 @@ export const DialogItem = styled.div<{ isSelected: boolean }>`
   padding: 10px 20px;
 
   &:hover {
-    background-color: ${({ theme: { colors } }) => colors.gray};
+    background-color: ${({ theme: { colors } }): string => colors.gray};
     cursor: pointer;
     ${DialogActionsButton} {
       display: block;
     }
   }
 
-  ${({ isSelected }) =>
-    isSelected &&
-    css`
-      background-color: ${({ theme: { colors } }: ITheme) =>
-        colors.background_color};
-    `};
+  ${({ isSelected }): FlattenInterpolation<any> =>
+    isSelected
+      ? css`
+          background-color: ${({ theme: { colors } }: ITheme): string =>
+            colors.background_color};
+        `
+      : css``};
 `;
 
 export const DialogItemInfo = styled.div`
@@ -143,9 +147,9 @@ export const DialogItemMessageUnreadCount = styled.div`
   position: absolute;
   right: 0;
   bottom: 0;
-  background: ${({ theme: { colors } }) => colors.red};
+  background: ${({ theme: { colors } }): string => colors.red};
   font-weight: bold;
-  color: ${({ theme: { colors } }) => colors.white};
+  color: ${({ theme: { colors } }): string => colors.white};
   border-radius: 30px;
   width: 100%;
   min-width: 18px;
@@ -154,5 +158,5 @@ export const DialogItemMessageUnreadCount = styled.div`
   font-size: 11px;
   text-align: center;
   line-height: 17px;
-  box-shadow: 0 0 0 3px ${({ theme: { colors } }) => colors.white};
+  box-shadow: 0 0 0 3px ${({ theme: { colors } }): string => colors.white};
 `;

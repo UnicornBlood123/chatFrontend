@@ -11,7 +11,7 @@ export const Chat = styled.div`
   height: 100%;
   width: 1140px;
   margin: 0 auto;
-  background-color: ${({ theme: { colors } }) => colors.white};
+  background-color: ${({ theme: { colors } }):string => colors.white};
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.04204);
 `;
 

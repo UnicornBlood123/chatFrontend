@@ -1,4 +1,4 @@
-export interface FormValues {
+export interface IRegisterFormValues {
   email?: string;
   fullname?: string;
   password?: string;

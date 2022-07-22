@@ -1,14 +1,14 @@
-import React from "react";
+import {ReactElement} from "react";
 import * as S from "./RegisterForm.styles";
 import { Form, Input } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import MailOutlined from "@ant-design/icons/lib/icons/MailOutlined";
 import LockOutlined from "@ant-design/icons/lib/icons/LockOutlined";
-import { validateField } from "../../../../utils/helpers";
+import validateField from "../../../../utils/validateField";
 import { Button } from "../../../../components";
 import Paths from "../../../../pages/routes";
 import { FormikProps } from "formik";
-import { FormValues } from "./RegisterForm.interfaces";
+import { IRegisterFormValues } from "./RegisterForm.interfaces";
 
 const RegisterForm = ({
   touched,
@@ -16,7 +16,7 @@ const RegisterForm = ({
   handleChange,
   handleBlur,
   handleSubmit,
-}: FormikProps<FormValues>) => {
+}: FormikProps<IRegisterFormValues>):ReactElement => {
   return (
     <>
       <S.RegisterTop>

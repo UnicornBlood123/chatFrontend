@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { Messages as BasicMessages } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { dialogsActions, messagesActions } from "../../redux/actions";
@@ -9,20 +9,20 @@ import { IMessageItems } from "../../redux/interfaces/messages.interfaces";
 import { IDialogItems } from "../../redux/interfaces/dialogs.interfaces";
 import { IMessagesContainer } from "./Messages.interfaces";
 
-const Messages = ({ user, inputRef }: IMessagesContainer) => {
+const Messages = ({ user, inputRef }: IMessagesContainer): ReactElement => {
   const dispatch = useDispatch();
   const messages = useSelector((state: IState) => state.messages);
   const dialogs = useSelector((state: IState) => state.dialogs);
   const currentDialogsId = dialogs.currentDialogId;
   const messagesRef = useRef<HTMLDivElement>(null);
-  const [isTyping, setIsTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
   let interval: ReturnType<typeof setTimeout>;
 
-  const currentDialog: IDialogItems = dialogs.items.filter(
+  const [currentDialog] = dialogs.items.filter(
     (dialog: IDialogItems) => dialog._id === currentDialogsId
-  )[0];
+  );
 
-  const getPartner = () => {
+  const getPartner = (): IUser => {
     return currentDialog
       ? user._id === currentDialog.partner._id
         ? currentDialog.author
@@ -30,7 +30,7 @@ const Messages = ({ user, inputRef }: IMessagesContainer) => {
       : user;
   };
 
-  const toggleIsTyping = ({ typingUser }: { typingUser: IUser }) => {
+  const toggleIsTyping = ({ typingUser }: { typingUser: IUser }): void => {
     if (user._id !== typingUser._id) {
       setIsTyping(true);
       clearTimeout(interval);
@@ -48,13 +48,15 @@ const Messages = ({ user, inputRef }: IMessagesContainer) => {
   }, []);
 
   useEffect(() => {
-    currentDialogsId &&
+    if (currentDialogsId) {
       dispatch(messagesActions.fetchMessages(currentDialogsId) as any);
+    }
   }, [currentDialogsId]);
 
   useEffect(() => {
-    messagesRef.current &&
+    if (messagesRef.current) {
       messagesRef.current.scrollTo(0, messagesRef.current.scrollHeight);
+    }
   }, [messages, isTyping]);
 
   useEffect(() => {
@@ -73,9 +75,10 @@ const Messages = ({ user, inputRef }: IMessagesContainer) => {
         messageId: string;
         lastMessage: IMessageItems;
       }) => {
-        authorId !== user._id &&
-          dispatch(messagesActions.removeMessageFromState(messageId)) &&
+        if (authorId !== user._id) {
+          dispatch(messagesActions.removeMessageFromState(messageId));
           dispatch(dialogsActions.setLastMessage(lastMessage) as any);
+        }
       }
     );
     return () => {
@@ -84,13 +87,13 @@ const Messages = ({ user, inputRef }: IMessagesContainer) => {
     };
   }, []);
 
-  const onRemoveMessageById = (messageId: string) => {
+  const onRemoveMessageById = (messageId: string): void => {
     dispatch(messagesActions.removeMessageById(messageId) as any);
   };
 
   return (
     <BasicMessages
-      haveCurrentDialog={!!currentDialog}
+      haveCurrentDialog={Boolean(currentDialog)}
       items={messages.items}
       isLoading={messages.isLoading}
       blockRef={messagesRef}

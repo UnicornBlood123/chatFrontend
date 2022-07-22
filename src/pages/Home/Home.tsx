@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import { ReactElement, useRef } from "react";
 import * as S from "./Home.styles";
 import { ChatInput, Messages, Status } from "../../containers";
 import { Sidebar } from "../../containers";
 import { HomeInterfaces } from "./Home.interfaces";
 
-const Home = ({ user }: HomeInterfaces) => {
+const Home = ({ user }: HomeInterfaces): ReactElement => {
   const inputRef = useRef<HTMLIFrameElement>(null);
   return (
     user && (

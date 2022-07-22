@@ -1,8 +1,8 @@
-import React from "react";
+import { ReactElement } from "react";
 import * as S from "./Status.styles";
 import { IStatusComponent } from "./Status.interfaces";
 
-const Status = ({ online, fullname }: IStatusComponent) => {
+const Status = ({ online, fullname }: IStatusComponent): ReactElement => {
   return (
     <S.ChatDialogHeader>
       <S.ChatDialogHeaderCenter>

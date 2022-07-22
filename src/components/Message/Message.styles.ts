@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css, FlattenInterpolation } from "styled-components";
 import { Avatar } from "../Avatar/Avatar.styles";
 import { ITheme } from "../../theme/theme.interfaces";
 import { ChatSidebarButton } from "../../pages/Home/Home.styles";
@@ -9,9 +9,10 @@ export const MessageBubble = styled.span`
   white-space: normal;
   word-wrap: break-word;
   max-width: 400px;
-  background: ${({ theme: { colors } }) => colors.blue};
-  box-shadow: 0px 2px 2px ${({ theme: { colors } }) => colors.bubble_color};
-  border-radius: 12px 12px 12px 0px;
+  background: ${({ theme: { colors } }): string => colors.blue};
+  box-shadow: 0 2px 2px
+    ${({ theme: { colors } }): string => colors.bubble_color};
+  border-radius: 12px 12px 12px 0;
   padding: 15px;
   margin-bottom: 8px;
 `;
@@ -54,7 +55,7 @@ export const MessageTyping = styled.div`
     height: 8px;
     width: 8px;
     border-radius: 50%;
-    background-color: ${({ theme: { colors } }) => colors.bright_blue};
+    background-color: ${({ theme: { colors } }): string => colors.bright_blue};
     margin: 3px;
     animation: typing 1000ms ease-in-out infinite;
     animation-delay: 3600ms;
@@ -111,7 +112,7 @@ export const MessageAttachmentsItem = styled.div`
 
 export const MessageText = styled.p`
   line-height: 20px;
-  color: ${({ theme: { colors } }) => colors.white};
+  color: ${({ theme: { colors } }): string => colors.white};
 `;
 
 export const MessageAvatar = styled.div`
@@ -162,75 +163,79 @@ export const Message = styled.div<{
   isImage: boolean;
 }>`
   padding: 20px;
-  padding-bottom: 0px;
+  padding-bottom: 0;
 
-  ${({ isMe, audio }) =>
-    isMe &&
-    css`
-      display: flex;
-      flex-direction: row-reverse;
-      ${MessageBubble} {
-        background: ${({ theme: { colors } }: ITheme) =>
-          audio ? colors.blue : colors.white};
-        border: 1px solid #ececec;
-        box-shadow: 0px 4px 4px
-          ${({ theme: { colors } }: ITheme) => colors.gray};
-        border-radius: 12px 12px 0px 12px;
-        ${MessageText} {
-          color: ${({ theme: { colors } }: any) => colors.black};
-        }
-      }
-      ${MessageContent} {
-        margin-bottom: 0;
-        flex-direction: row-reverse;
-      }
-      ${MessageDivReverse} {
-        flex-direction: row-reverse;
-      }
-      ${MessageDiv} {
-        justify-content: right;
-      }
-      ${MessageAvatar} {
-        margin-right: 0;
-        margin-left: 13px;
-      }
-      ${MessageInfo} {
-        text-align: right;
-      }
-      ${MessageAttachmentsItem} {
-        margin-left: 0;
-        margin-right: 5px;
-      }
-    `}
+  ${({ isMe, audio }): FlattenInterpolation<any> =>
+    isMe
+      ? css`
+          display: flex;
+          flex-direction: row-reverse;
+          ${MessageBubble} {
+            background: ${({ theme: { colors } }: ITheme): string =>
+              audio ? colors.blue : colors.white};
+            border: 1px solid #ececec;
+            box-shadow: 0 4px 4px
+              ${({ theme: { colors } }: ITheme): string => colors.gray};
+            border-radius: 12px 12px 0 12px;
+            ${MessageText} {
+              color: ${({ theme: { colors } }: ITheme): string => colors.black};
+            }
+          }
+          ${MessageContent} {
+            margin-bottom: 0;
+            flex-direction: row-reverse;
+          }
+          ${MessageDivReverse} {
+            flex-direction: row-reverse;
+          }
+          ${MessageDiv} {
+            justify-content: right;
+          }
+          ${MessageAvatar} {
+            margin-right: 0;
+            margin-left: 13px;
+          }
+          ${MessageInfo} {
+            text-align: right;
+          }
+          ${MessageAttachmentsItem} {
+            margin-left: 0;
+            margin-right: 5px;
+          }
+        `
+      : css``}
 
-  ${({ isTyping }) =>
-    isTyping &&
-    css`
-      ${MessageBubble} {
-        background-color: ${({ theme: { colors } }: ITheme) =>
-          colors.typing_bubble_color};
-      }
-    `}
+  ${({ isTyping }): FlattenInterpolation<any> =>
+    isTyping
+      ? css`
+          ${MessageBubble} {
+            background-color: ${({ theme: { colors } }: ITheme): string =>
+              colors.typing_bubble_color};
+          }
+        `
+      : css``}
       
-    ${({ isImage }) =>
-    isImage &&
-    css`
-      ${MessageAttachmentsItem} {
-        img {
-          width: 150px;
-          height: 150px;
-          border-radius: 12px;
-        }
-      }
-    `}
+    ${({ isImage }): FlattenInterpolation<any> =>
+    isImage
+      ? css`
+          ${MessageAttachmentsItem} {
+            img {
+              width: 150px;
+              height: 150px;
+              border-radius: 12px;
+            }
+          }
+        `
+      : css``}
             
-     ${({ audio }) =>
-    audio &&
-    css`
-      ${MessageBubble} {
-        width: 280px;
-        position: relative;
-        overflow: hidden;
-      }
-    `}
+     ${({ audio }): FlattenInterpolation<any> =>
+    audio
+      ? css`
+          ${MessageBubble} {
+            width: 280px;
+            position: relative;
+            overflow: hidden;
+          }
+        `
+      : css``}
 `;

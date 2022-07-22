@@ -1,7 +1,8 @@
-import { axios } from "../../core";
+import { axios } from "../core";
+import { AxiosResponse } from "axios";
 
 const getAxios = {
-  upload: (file: any) => {
+  upload: (file: any): Promise<AxiosResponse> => {
     const formData = new FormData();
     formData.append("file", file);
     return axios.post("./files", formData, {

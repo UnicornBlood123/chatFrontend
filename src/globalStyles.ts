@@ -5,7 +5,7 @@ import { ITheme } from "./theme/theme.interfaces";
 const GlobalStyle = createGlobalStyle`
 
 body{
-  background-color: ${({ theme: { colors } }: ITheme) =>
+  background-color: ${({ theme: { colors } }: ITheme): string =>
     colors.background_color};
 }
 

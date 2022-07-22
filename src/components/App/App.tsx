@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { FunctionComponent, ReactElement, useEffect } from "react";
 import * as S from "./App.styles";
 import { Auth, Home } from "../../pages";
 import { Route, Routes, useNavigate } from "react-router";
@@ -9,7 +9,7 @@ import { dialogsActions, usersActions } from "../../redux/actions";
 import { IUserLogin } from "../../redux/interfaces/users.interfaces";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-const App = () => {
+const App = (): ReactElement => {
   const userLogin: IUserLogin = useSelector((state: IState) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -38,15 +38,30 @@ const App = () => {
       <Routes>
         <Route
           path={Paths.EMPTY}
-          element={<PrivateRoute user={userLogin} component={Home} />}
+          element={
+            <PrivateRoute
+              user={userLogin}
+              component={Home as FunctionComponent}
+            />
+          }
         />
         <Route
           path={Paths.HOME}
-          element={<PrivateRoute user={userLogin} component={Home} />}
+          element={
+            <PrivateRoute
+              user={userLogin}
+              component={Home as FunctionComponent}
+            />
+          }
         />
         <Route
           path={Paths.DIALOGID}
-          element={<PrivateRoute user={userLogin} component={Home} />}
+          element={
+            <PrivateRoute
+              user={userLogin}
+              component={Home as FunctionComponent}
+            />
+          }
         />
         <Route path={Paths.OTHER} element={<Auth />} />
       </Routes>

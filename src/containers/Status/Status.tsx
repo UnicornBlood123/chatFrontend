@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { Status as BaseStatus } from "../../components";
 import { IState } from "../../redux/interfaces/state.interfaces";
@@ -6,27 +6,30 @@ import { IUser } from "../../redux/interfaces/users.interfaces";
 import { IDialogItems } from "../../redux/interfaces/dialogs.interfaces";
 import { IStatusContainer } from "./Status.interfaces";
 
-const Status = ({ user }: IStatusContainer) => {
+const Status = ({ user }: IStatusContainer): ReactElement => {
   const dialogs = useSelector((state: IState) => state.dialogs);
-  const currentDialogId = dialogs.currentDialogId;
+  const { currentDialogId } = dialogs;
 
-  const currentDialog: IDialogItems = dialogs.items.filter(
+  const [currentDialog] = dialogs.items.filter(
     (dialog: IDialogItems) => dialog._id === currentDialogId
-  )[0];
+  );
 
-  if (!currentDialog) {
-    return null;
-  }
+  const getPartner = (): IUser => {
+    return currentDialog
+      ? user._id === currentDialog.partner._id
+        ? currentDialog.author
+        : currentDialog.partner
+      : user;
+  };
 
-  let partner: IUser;
-
-  currentDialog && currentDialog?.author._id === user._id
-    ? (partner = currentDialog.partner)
-    : (partner = currentDialog.author);
-
-  return currentDialog ? (
-    <BaseStatus online={partner.isOnline} fullname={partner.fullname} />
-  ) : null;
+  return (
+    currentDialog && (
+      <BaseStatus
+        online={getPartner().isOnline}
+        fullname={getPartner().fullname}
+      />
+    )
+  );
 };
 
 export default Status;

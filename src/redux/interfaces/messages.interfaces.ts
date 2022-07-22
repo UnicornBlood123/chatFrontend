@@ -3,7 +3,7 @@ import { IDialogItems } from "./dialogs.interfaces";
 
 export interface IMessages {
   items: IMessageItems[] | null;
-  isLoading: false;
+  isLoading: boolean;
 }
 
 export interface IMessageItems {

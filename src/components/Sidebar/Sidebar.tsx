@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactElement } from "react";
 import { FormOutlined } from "@ant-design/icons/lib/icons";
 import { IUser } from "../../redux/interfaces/users.interfaces";
 import * as S from "./Sidebar.styles";
@@ -24,7 +24,7 @@ const Sidebar = ({
   onChange,
   onSearch,
   onSelect,
-}: ISidebarComponents) => {
+}: ISidebarComponents): ReactElement => {
   return (
     <S.ChatSidebar>
       <S.ChatSidebarDialogs>
@@ -66,7 +66,7 @@ const Sidebar = ({
               onChange={onChange}
               onSearch={onSearch}
               onSelect={onSelect}
-              filterOption={(input, option) =>
+              filterOption={(input, option): boolean =>
                 (option!.children as unknown as string)
                   .toLowerCase()
                   .includes(input.toLowerCase())

@@ -20,7 +20,8 @@ export const ChatSidebarButton = styled(ChatButton)`
 
 export const ChatSidebar = styled.div`
   width: 320px;
-  border-right: 1px solid ${({ theme: { colors } }) => colors.bright_grey};
+  border-right: 1px solid
+    ${({ theme: { colors } }): string => colors.bright_grey};
 `;
 
 export const ChatSidebarHeader = styled.div`
@@ -29,7 +30,8 @@ export const ChatSidebarHeader = styled.div`
   justify-content: space-between;
   padding: 22px;
   height: 58px;
-  border-bottom: 1px solid ${({ theme: { colors } }) => colors.bright_grey};
+  border-bottom: 1px solid
+    ${({ theme: { colors } }): string => colors.bright_grey};
   div {
     span {
       display: inline-block;

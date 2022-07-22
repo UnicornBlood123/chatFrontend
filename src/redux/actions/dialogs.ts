@@ -1,16 +1,21 @@
-import { dialogsApi } from "../../utils/api";
+import { dialogsApi } from "../../api";
 import { IDialogItems } from "../interfaces/dialogs.interfaces";
 import { IMessageItems } from "../interfaces/messages.interfaces";
 import socket from "../../core/socket";
 import { Dispatch } from "redux";
 
+interface IAction {
+  type:string,
+  payload:any
+}
+
 const actions = {
-  setDialogs: (items: IDialogItems[]) => ({
+  setDialogs: (items: IDialogItems[]):IAction => ({
     type: "DIALOGS:SET_ITEMS",
     payload: items,
   }),
 
-  setLastMessage: (message: IMessageItems) => (dispatch: Dispatch) => {
+  setLastMessage: (message: IMessageItems) => (dispatch: Dispatch):void => {
     if (message) {
       dispatch({
         type: "DIALOGS:SET_LAST_MESSAGE",
@@ -19,20 +24,18 @@ const actions = {
     }
   },
 
-  removeDialogById: (id: string) => (dispatch: Dispatch<any>) => {
+  removeDialogById: (id: string) :void => {
     if (window.confirm("Вы действительно хотите удалить диалог?")) {
-      dialogsApi.removeById(id).then(() => {
-        dispatch(actions.removeDialogFromState(id));
-      });
+      dialogsApi.removeById(id);
     }
   },
 
-  setIsLoading: (bool: boolean) => ({
+  setIsLoading: (bool: boolean):IAction => ({
     type: "DIALOGS:SET_IS_LOADING",
     payload: bool,
   }),
 
-  setCurrentDialogId: (id: string | null) => (dispatch: Dispatch) => {
+  setCurrentDialogId: (id: string | null) => (dispatch: Dispatch):void => {
     socket.emit("DIALOGS:JOIN", id);
     dispatch({
       type: "DIALOGS:SET_CURRENT_DIALOG_ID",
@@ -40,12 +43,12 @@ const actions = {
     });
   },
 
-  removeDialogFromState: (id: string) => ({
+  removeDialogFromState: (id: string):IAction => ({
     type: "DIALOGS:REMOVE_DIALOG",
     payload: id,
   }),
 
-  fetchDialogs: () => (dispatch: Dispatch) => {
+  fetchDialogs: () => (dispatch: Dispatch):void => {
     dispatch(actions.setIsLoading(true));
     dialogsApi
       .getAll()

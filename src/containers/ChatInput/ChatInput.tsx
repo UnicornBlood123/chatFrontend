@@ -1,31 +1,79 @@
-import React, { useRef, useState } from "react";
+import { ReactElement, useRef, useState } from "react";
 import { ChatInput as BasicChatInput } from "../../components";
 import { messagesActions } from "../../redux/actions";
 import { useSelector } from "react-redux";
 import { IState } from "../../redux/interfaces/state.interfaces";
 import { IDialogItems } from "../../redux/interfaces/dialogs.interfaces";
-import { filesApi } from "../../utils/api";
+import { filesApi } from "../../api";
 import { IAttachment } from "../../redux/interfaces/messages.interfaces";
 import { IChatInputContainer } from "./ChatInput.interfaces";
+import { AxiosResponse } from "axios";
 
-const ChatInput = ({ inputRef, user }: IChatInputContainer) => {
+const ChatInput = ({ inputRef, user }: IChatInputContainer): ReactElement => {
   const dialogs = useSelector((state: IState) => state.dialogs);
-  const currentDialogId = dialogs.currentDialogId;
+  const { currentDialogId } = dialogs;
   const emojiButtonRef = useRef<HTMLDivElement>(null);
   const emojiRef = useRef<HTMLDivElement>(null);
-  const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
-  const [value, setValue] = useState("");
-  const [cursorPosition, setCursorPosition] = useState(0);
+  const [emojiPickerVisible, setEmojiPickerVisible] = useState<boolean>(false);
+  const [value, setValue] = useState<string>("");
+  const [cursorPosition, setCursorPosition] = useState<number>(0);
   const [attachments, setAttachments] = useState<IAttachment[]>([]);
-  const [isRecording, setIsRecording] = useState(false);
+  const [isRecording, setIsRecording] = useState<boolean>(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>();
-  const [isLoadingAudio, setLoadingAudio] = useState(false);
+  const [isLoadingAudio, setLoadingAudio] = useState<boolean>(false);
 
-  const currentDialog: IDialogItems = dialogs.items.filter(
+  const [currentDialog] = dialogs.items.filter(
     (dialog: IDialogItems) => dialog._id === currentDialogId
-  )[0];
+  );
 
-  const onRecord = () => {
+  const onError = (err: string): void => {
+    alert(`Произошла следующая ошибка: ${err}`);
+  };
+
+  const onHideRecording = (): void => {
+    setIsRecording(false);
+  };
+
+  const sendAudio = (file: IAttachment): Promise<AxiosResponse> => {
+    return messagesActions.fetchSendMessage("", currentDialog._id, [
+      {
+        _id: file._id,
+        filename: file.filename,
+        status: "done",
+        size: file.size,
+        url: file.url,
+        user: file.user,
+        ext: file.ext,
+      },
+    ]);
+  };
+
+  const onRecording = (stream: MediaStream): void => {
+    const recorder = new MediaRecorder(stream);
+    setMediaRecorder(recorder);
+
+    recorder.start();
+
+    recorder.onstart = (): void => {
+      setIsRecording(true);
+    };
+
+    recorder.onstop = (): void => {
+      setIsRecording(false);
+    };
+
+    recorder.ondataavailable = (e): void => {
+      const file = new File([e.data], "audio.webm");
+      setLoadingAudio(true);
+      filesApi.upload(file).then(({ data }) => {
+        sendAudio(data.file).then(() => {
+          setLoadingAudio(false);
+        });
+      });
+    };
+  };
+
+  const onRecord = (): void => {
     if (
       "mediaDevices" in navigator &&
       "getUserMedia" in navigator.mediaDevices
@@ -36,58 +84,11 @@ const ChatInput = ({ inputRef, user }: IChatInputContainer) => {
     }
   };
 
-  const onError = (err: any) => {
-    console.log("The following error occured: " + err);
-  };
-
-  const onHideRecording = () => {
-    setIsRecording(false);
-  };
-
-  const sendAudio = (data: any) => {
-    return messagesActions.fetchSendMessage("", currentDialog._id, [
-      {
-        _id: data.file._id,
-        filename: data.file.filename,
-        status: "done",
-        size: data.file.size,
-        url: data.file.url,
-        user: data.file.user,
-        ext: data.file.ext,
-      },
-    ]);
-  };
-
-  const onRecording = (stream: MediaStream) => {
-    const recorder = new MediaRecorder(stream);
-    setMediaRecorder(recorder);
-
-    recorder.start();
-
-    recorder.onstart = () => {
-      setIsRecording(true);
-    };
-
-    recorder.onstop = () => {
-      setIsRecording(false);
-    };
-
-    recorder.ondataavailable = (e) => {
-      const file = new File([e.data], "audio.webm");
-      setLoadingAudio(true);
-      filesApi.upload(file).then(({ data }) => {
-        sendAudio(data).then(() => {
-          setLoadingAudio(false);
-        });
-      });
-    };
-  };
-
-  const toggleEmojiPickerVisible = () => {
+  const toggleEmojiPickerVisible = (): void => {
     setEmojiPickerVisible(!emojiPickerVisible);
   };
 
-  const onUploadFile = (file: any, uid: number | string) => {
+  const onUploadFile = (file: File, uid: number | string): void => {
     filesApi.upload(file).then(({ data }) => {
       setAttachments((prevState) => {
         return prevState.map((item: IAttachment) => {
@@ -108,9 +109,8 @@ const ChatInput = ({ inputRef, user }: IChatInputContainer) => {
     });
   };
 
-  const onSelectFiles = (files: any) => {
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
+  const onSelectFiles = (files: File[]): void => {
+    Array.from(files).forEach((file: File) => {
       const uid = Math.round(Math.random() * 10000).toString();
       setAttachments((prevState) => {
         return [
@@ -127,14 +127,14 @@ const ChatInput = ({ inputRef, user }: IChatInputContainer) => {
         ];
       });
       onUploadFile(file, uid);
-    }
+    });
   };
 
   const onSendMessage = (
     value: string,
     dialogId: string | null,
     attachments: IAttachment[]
-  ) => {
+  ): void => {
     if (isRecording) {
       mediaRecorder?.stop();
     } else if (
@@ -152,7 +152,7 @@ const ChatInput = ({ inputRef, user }: IChatInputContainer) => {
   return (
     <BasicChatInput
       user={user}
-      haveCurrentDialog={!!currentDialog}
+      haveCurrentDialog={Boolean(currentDialog)}
       onSendMessage={onSendMessage}
       dialogId={currentDialogId}
       inputBlockRef={inputRef}

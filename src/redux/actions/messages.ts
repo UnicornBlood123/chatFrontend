@@ -1,16 +1,22 @@
-import { messagesApi } from "../../utils/api";
+import { messagesApi } from "../../api";
 import { IAttachment, IMessageItems } from "../interfaces/messages.interfaces";
 import { Dispatch } from "redux";
 import { IState } from "../interfaces/state.interfaces";
 import { dialogsActions } from "./index";
+import {AxiosResponse} from "axios";
+
+interface IAction {
+  type:string,
+  payload:any
+}
 
 const actions = {
-  setMessages: (items: IMessageItems[]) => ({
+  setMessages: (items: IMessageItems[]):IAction => ({
     type: "MESSAGES:SET_ITEMS",
     payload: items,
   }),
 
-  removeMessageById: (id: string) => (dispatch: Dispatch<any>) => {
+  removeMessageById: (id: string) => (dispatch: Dispatch<any>):void => {
     if (window.confirm("Вы действительно хотите удалить сообщение?")) {
       messagesApi.removeById(id).then(({ data }) => {
         dispatch(actions.removeMessageFromState(id));
@@ -19,14 +25,14 @@ const actions = {
     }
   },
 
-  removeMessageFromState: (id: string) => ({
+  removeMessageFromState: (id: string):IAction => ({
     type: "MESSAGES:REMOVE_MESSAGE",
     payload: id,
   }),
 
   addMessage:
     (message: IMessageItems) =>
-    (dispatch: Dispatch, getState: () => IState) => {
+    (dispatch: Dispatch, getState: () => IState):void => {
       const { dialogs } = getState();
       const { currentDialogId } = dialogs;
       if (currentDialogId === message.dialog._id) {
@@ -41,16 +47,16 @@ const actions = {
     text: string,
     dialog_id: string | null,
     attachments: IAttachment[]
-  ) => {
+  ):Promise<AxiosResponse> => {
     return messagesApi.send(text, dialog_id, attachments);
   },
 
-  setIsLoading: (bool: boolean) => ({
+  setIsLoading: (bool: boolean):IAction => ({
     type: "MESSAGES:SET_IS_LOADING",
     payload: bool,
   }),
 
-  fetchMessages: (dialogId: null | string) => (dispatch: Dispatch) => {
+  fetchMessages: (dialogId: null | string) => (dispatch: Dispatch):void => {
     dispatch(actions.setIsLoading(true));
     messagesApi
       .getAllByDialogId(dialogId)

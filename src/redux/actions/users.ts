@@ -1,42 +1,50 @@
-import { usersApi } from "../../utils/api";
-import openNotificationWithIcon from "../../utils/helpers/openNotification";
+import { usersApi } from "../../api";
+import openNotificationWithIcon from "../../utils/openNotification";
 import Paths from "../../pages/routes";
 import { Dispatch } from "redux";
+import {IUser} from "../interfaces/users.interfaces";
+import {ILoginFormValues} from "../../modules/LoginForm/components/LoginForm.interfaces";
+import {IRegisterFormValues} from "../../modules/RegisterForm/components/RegisterForm/RegisterForm.interfaces";
+
+interface IAction {
+  type:string,
+  payload:any
+}
 
 const actions = {
-  setUserData: (data: any) => ({
+  setUserData: (data: IUser):IAction => ({
     type: "USER:SET_DATA",
     payload: data,
   }),
 
-  setIsAuth: (bool: boolean) => ({
+  setIsAuth: (bool: boolean):IAction => ({
     type: "USER:SET_IS_AUTH",
     payload: bool,
   }),
 
-  setIsLoading: (bool: boolean) => ({
+  setIsLoading: (bool: boolean):IAction => ({
     type: "USER:SET_IS_LOADING",
     payload: bool,
   }),
 
-  fetchUserData: () => (dispatch: Dispatch) => {
+  fetchUserData: () => (dispatch: Dispatch):void => {
     dispatch(actions.setIsLoading(true));
     usersApi
       .getMe()
       .then(({ data }) => {
         dispatch(actions.setUserData(data));
       })
-      .catch((err) => {
+      .catch(() => {
         dispatch(actions.setIsAuth(false));
         dispatch(actions.setIsLoading(false));
         delete window.localStorage.token;
       });
   },
 
-  fetchUserLogin: (postData: any) => (dispatch: Dispatch<any>) => {
+  fetchUserLogin: (postData: ILoginFormValues) => (dispatch: Dispatch<any>):Promise<void> => {
     return usersApi
       .login(postData)
-      .then(({ data }: any) => {
+      .then(({ data }) => {
         if (data.status === "success") {
           openNotificationWithIcon({
             text: "Авторизация прошла успешно",
@@ -60,7 +68,7 @@ const actions = {
       });
   },
 
-  fetchUserRegistration: (postData: any) => {
+  fetchUserRegistration: (postData: IRegisterFormValues):Promise<void> => {
     return usersApi
       .registration(postData)
       .then(({ data }) => {

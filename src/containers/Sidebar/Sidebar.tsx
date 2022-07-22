@@ -1,30 +1,30 @@
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, ReactElement, useState } from "react";
 import { Sidebar as BasicSidebar } from "../../components";
 import { IUser } from "../../redux/interfaces/users.interfaces";
-import { dialogsApi, usersApi } from "../../utils/api";
+import { dialogsApi, usersApi } from "../../api";
 import { ISidebarContainer } from "./Sidebar.interfaces";
 
-const Sidebar = ({ user }: ISidebarContainer) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [inputValue, setInputValue] = useState("");
+const Sidebar = ({ user }: ISidebarContainer): ReactElement => {
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string>("");
   const [users, setUsers] = useState<IUser[]>([]);
-  const [selectedUserId, setSelectedUserId] = useState("");
-  const [messageText, setMessageText] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState<string>("");
+  const [messageText, setMessageText] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const showModal = () => {
+  const showModal = (): void => {
     setIsModalVisible(true);
   };
 
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     setIsModalVisible(false);
   };
 
-  const onChange = (value: string) => {
+  const onChange = (value: string): void => {
     setInputValue(value);
   };
 
-  const onSearch = (value: string) => {
+  const onSearch = (value: string): void => {
     setIsLoading(true);
     usersApi
       .findUsers(value)
@@ -37,19 +37,19 @@ const Sidebar = ({ user }: ISidebarContainer) => {
       });
   };
 
-  const onSelect = (value: string) => {
+  const onSelect = (value: string): void => {
     setSelectedUserId(value);
   };
 
-  const addDialog = () => {
+  const addDialog = (): void => {
     setIsLoading(true);
     dialogsApi
       .create(selectedUserId, messageText)
       .then(() => {
         setIsLoading(false);
-        setIsModalVisible(false);
         setMessageText("");
         setInputValue("");
+        setIsModalVisible(false);
       })
       .catch((err) => {
         alert(err.response.data.message);
@@ -57,7 +57,7 @@ const Sidebar = ({ user }: ISidebarContainer) => {
       });
   };
 
-  const onChangeTextArea = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const onChangeTextArea = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     setMessageText(event.currentTarget.value);
   };
 

@@ -1,6 +1,7 @@
 import { notification } from "antd";
+import { IconType } from "antd/es/notification";
 
-interface Interface {
+interface INotification {
   text: string;
   type: string;
   title: string;
@@ -12,8 +13,8 @@ const openNotificationWithIcon = ({
   type = "info",
   title,
   duration = 3,
-}: Interface) => {
-  (notification as any)[type]({
+}: INotification): void => {
+  notification[type as IconType]({
     message: title,
     description: text,
     duration: duration,

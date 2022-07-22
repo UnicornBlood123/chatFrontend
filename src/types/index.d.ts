@@ -1,7 +1,9 @@
+import axios from "axios";
+
 export {};
 
 declare global {
   interface Window {
-    axios: any;
+    axios: typeof axios;
   }
 }

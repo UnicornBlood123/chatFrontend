@@ -8,7 +8,7 @@ export const Register = styled(Link)`
   font-weight: 400;
   font-size: 16px;
   letter-spacing: 0.1px;
-  color: ${({ theme: { colors } }) => colors.dark_grey};
+  color: ${({ theme: { colors } }): string => colors.dark_grey};
 `;
 
 export const AuthBlock = styled(Block)`

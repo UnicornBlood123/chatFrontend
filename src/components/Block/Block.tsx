@@ -1,7 +1,7 @@
-import React from "react";
+import { ReactElement } from "react";
 import * as S from "./Block.styles";
 
-const Block = (props: any) => {
+const Block = (props: any): ReactElement => {
   return <S.Block {...props} />;
 };
 

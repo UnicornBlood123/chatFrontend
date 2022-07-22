@@ -1,51 +1,47 @@
-import React, { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import * as S from "./CheckEmailInfo.styles";
-import InfoCircleTwoTone from "@ant-design/icons/lib/icons/InfoCircleTwoTone";
-import { usersApi } from "../../../../utils/api";
+import { usersApi } from "../../../../api";
 import { Button } from "../../../../components";
 import Paths from "../../../../pages/routes";
 import { useNavigate } from "react-router";
+import { ITextInfo, IVerifyStatus } from "./CheckEmailInfo.interfaces";
 
-const renderTextInfo = ({ hash, verified }: any) => {
-  if (hash) {
-    if (verified) {
-      return {
-        status: "success",
-        title: "Готово!",
-        message: "Аккаунт успешно подтвержден!",
+const renderTextInfo = ({ verified, checking }: IVerifyStatus): ITextInfo => {
+  return checking
+    ? verified
+      ? {
+          status: "success",
+          title: "Готово!",
+          message: "Аккаунт успешно подтвержден!",
+        }
+      : {
+          status: "error",
+          title: "Ошибка",
+          message: "Вы указали несуществующий или неверный хеш",
+        }
+    : {
+        status: "info",
+        title: "Подтвердите почту",
+        message: "Ссылка с подтверждением аккаунта отправлена на E-Mail",
       };
-    } else {
-      return {
-        status: "error",
-        title: "Ошибка",
-        message: "Вы указали несуществующий или неверный хеш",
-      };
-    }
-  } else {
-    return {
-      status: "info",
-      title: "Подтвердите почту",
-      message: "Ссылка с подтверждением аккаунта отправлена на E-Mail",
-    };
-  }
 };
 
-const CheckEmailInfo = () => {
+const CheckEmailInfo = (): ReactElement => {
   const navigate = useNavigate();
-  const hash = window.location.search.split("?hash=")[1];
-  const [verified, setVerified] = useState(false);
-  const [checking, setChecking] = useState(!!hash);
+  const [, hash] = window.location.search.split("?hash=");
+  const [verified, setVerified] = useState<boolean>(false);
+  const [checking, setChecking] = useState<boolean>(Boolean(hash));
   const [info, setInfo] = useState(
     renderTextInfo({ hash, checking, verified })
   );
 
-  const setStatus = ({ checking, verified }: any) => {
+  const setStatus = ({ checking, verified }: IVerifyStatus): void => {
     setInfo(renderTextInfo({ hash, checking, verified }));
     setVerified(verified);
     setChecking(checking);
   };
 
-  const navigateToLogin = () => {
+  const navigateToLogin = (): void => {
     navigate(Paths.LOGIN);
   };
 
@@ -71,7 +67,7 @@ const CheckEmailInfo = () => {
       <S.RegisterBlock>
         <S.SuccessBlock>
           <div>
-            <InfoCircleTwoTone style={{ fontSize: "48px" }} />
+            <S.InfoCircleTwoToneStyled />
           </div>
           {!verified && info.status !== "error" ? (
             <>

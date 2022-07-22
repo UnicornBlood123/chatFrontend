@@ -3,6 +3,7 @@ import {
   AuthBlock,
   AuthTop,
 } from "../../../LoginForm/components/LoginForm.styles";
+import InfoCircleTwoTone from "@ant-design/icons/lib/icons/InfoCircleTwoTone";
 
 export const SuccessBlock = styled.div`
   display: flex;
@@ -20,8 +21,12 @@ export const SuccessBlock = styled.div`
     line-height: 26px;
     margin-top: 14px;
     padding-bottom: 25px;
-    color: ${({ theme: { colors } }) => colors.dark_grey};
+    color: ${({ theme: { colors } }): string => colors.dark_grey};
   }
+`;
+
+export const InfoCircleTwoToneStyled = styled(InfoCircleTwoTone)`
+  font-size: 48px;
 `;
 
 export const RegisterBlock = styled(AuthBlock)``;

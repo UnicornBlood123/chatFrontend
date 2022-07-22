@@ -1,7 +1,6 @@
 import { IUser } from "../../redux/interfaces/users.interfaces";
 import { IAttachment } from "../../redux/interfaces/messages.interfaces";
 import { RefObject } from "react";
-import { UploadFile } from "antd/es/upload/interface";
 
 export interface IChatInputComponent {
   user: IUser;

@@ -10,7 +10,7 @@ export interface IUser {
 }
 
 export interface IUserLogin {
-  data: IUser;
+  data: IUser | null;
   isAuth: boolean;
   isLoading: boolean;
   token: string;

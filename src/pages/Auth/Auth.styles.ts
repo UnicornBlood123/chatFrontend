@@ -11,7 +11,7 @@ export const AuthSection = styled.section`
     font-size: 14px;
     line-height: 16px;
     letter-spacing: 0.1px;
-    color: ${({ theme: { colors } }) => colors.white};
+    color: ${({ theme: { colors } }):string => colors.white};
     width: 100%;
   }
 `;

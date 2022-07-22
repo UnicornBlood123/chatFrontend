@@ -1,4 +1,4 @@
-import React from "react";
+import {ReactElement} from "react";
 import * as S from "./Auth.styles";
 import { Route, Routes } from "react-router";
 import RegisterForm from "../../modules/RegisterForm";
@@ -7,7 +7,7 @@ import Paths from "../routes";
 import CheckEmailInfo from "../../modules/RegisterForm/components/CheckEmailInfo/CheckEmailInfo";
 import { Result } from "antd";
 
-const Auth = () => {
+const Auth = () :ReactElement => {
   return (
     <S.AuthSection>
       <div>

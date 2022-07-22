@@ -12,7 +12,7 @@ const dialogs = (
     type: string;
     payload: any;
   }
-) => {
+):IDialogs => {
   switch (action.type) {
     case "DIALOGS:SET_LAST_MESSAGE":
       return {
@@ -22,10 +22,10 @@ const dialogs = (
             dialog._id === action.payload.dialog?._id ||
             dialog._id === action.payload.dialog.toString()
           )
-            return {
+            {return {
               ...dialog,
               lastMessage: action.payload,
-            };
+            };}
           return dialog;
         }),
       };

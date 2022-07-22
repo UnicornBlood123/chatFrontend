@@ -8,16 +8,17 @@ const initialState: IMessages = {
 const messages = (
   state: IMessages = initialState,
   action: { type: string; payload: any }
-) => {
+): IMessages => {
   switch (action.type) {
     case "MESSAGES:SET_ITEMS":
       return { ...state, items: action.payload, isLoading: false };
     case "MESSAGES:REMOVE_MESSAGE":
       return {
         ...state,
-        items: state.items?.filter(
-          (message: IMessageItems) => message._id !== action.payload
-        ),
+        items:
+          state.items?.filter(
+            (message: IMessageItems) => message._id !== action.payload
+          ) ?? null,
       };
     case "MESSAGES:ADD_MESSAGE":
       return {

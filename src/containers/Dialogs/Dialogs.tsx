@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Dialogs as BasicDialogs } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { dialogsActions, messagesActions } from "../../redux/actions";
@@ -9,29 +9,30 @@ import Paths from "../../pages/routes";
 import { useNavigate } from "react-router";
 import { IDialogsContainer } from "./Dialogs.interfaces";
 
-const Dialogs = ({ user }: IDialogsContainer) => {
+const Dialogs = ({ user }: IDialogsContainer): ReactElement => {
   const dialogs = useSelector((state: IState) => state.dialogs);
   const [filtered, setFiltered] = useState<IDialogItems[]>([...dialogs.items]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onRemoveDialog = (dialogId: string) => {
+  const onRemoveDialog = (dialogId: string): void => {
     dispatch(dialogsActions.removeDialogById(dialogId) as any);
   };
 
-  const search = (value: string) => {
-    dialogs.items.length &&
+  const search = (value: string): void => {
+    if (dialogs.items.length) {
       setFiltered(
         dialogs.items.filter(
           (dialog: IDialogItems) =>
             dialog.author.fullname
               .toLowerCase()
-              .indexOf(value.toLowerCase().trim()) >= 0 ||
+              .includes(value.toLowerCase().trim()) ||
             dialog.partner.fullname
               .toLowerCase()
-              .indexOf(value.toLowerCase().trim()) >= 0
+              .includes(value.toLowerCase().trim())
         )
       );
+    }
   };
 
   useEffect(() => {
@@ -50,6 +51,7 @@ const Dialogs = ({ user }: IDialogsContainer) => {
     });
     socket.on("SERVER:DIALOG_DELETED", (dialogId) => {
       dispatch(dialogsActions.removeDialogFromState(dialogId));
+      navigate(Paths.HOME);
     });
     return () => {
       socket.off("SERVER:NEW_DIALOG");

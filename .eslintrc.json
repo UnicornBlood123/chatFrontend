@@ -1,0 +1,104 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/jsx-runtime"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2021,
+        "sourceType": "module",
+        "project": ["./tsconfig.json"]
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "react/jsx-filename-extension": [
+            2,
+            {
+                "extensions": [".ts", ".tsx"]
+            }
+
+        ],
+        "react/prop-types": 0,
+        "react/no-array-index-key": 1,
+        "react/jsx-no-duplicate-props": [2],
+        "react/jsx-uses-vars": [2],
+        "react/no-direct-mutation-state": [2],
+        "no-nested-ternary": "off",
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+        "@typescript-eslint/no-var-requires": 0,
+        "import/no-unresolved": 0,
+        "no-console": 1,
+        "@typescript-eslint/no-empty-interface": 0,
+        "@typescript-eslint/no-use-before-define": ["error"],
+        "@typescript-eslint/ban-tslint-comment": "error",
+        "@typescript-eslint/explicit-function-return-type": "error",
+        "@typescript-eslint/explicit-member-accessibility": "warn",
+        "@typescript-eslint/no-extraneous-class": "warn",
+        "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
+        "@typescript-eslint/no-unnecessary-type-constraint": "error",
+        "@typescript-eslint/prefer-for-of": "error",
+        "@typescript-eslint/prefer-includes": "error",
+        "@typescript-eslint/prefer-nullish-coalescing": "error",
+        "@typescript-eslint/prefer-optional-chain": "warn",
+        "@typescript-eslint/prefer-readonly": "error",
+        "@typescript-eslint/prefer-ts-expect-error": "error",
+        "@typescript-eslint/unified-signatures": "warn",
+        "@typescript-eslint/no-loss-of-precision": "warn",
+        "@typescript-eslint/no-redeclare": "error",
+        "@typescript-eslint/no-unused-expressions": "error",
+        "@typescript-eslint/no-useless-constructor": "error",
+        "@typescript-eslint/no-invalid-void-type": "warn",
+        "@typescript-eslint/no-parameter-properties": "off",
+        "@typescript-eslint/no-unused-vars": ["error", {"ignoreRestSiblings": true, "varsIgnorePattern" : "^_", "argsIgnorePattern": "^_"}],
+        "no-promise-executor-return": "error",
+        "no-unreachable-loop": "error",
+        "require-atomic-updates": "error",
+        "curly": "error",
+        "default-case": "error",
+        "default-case-last": "error",
+        "eqeqeq": "error",
+        "grouped-accessor-pairs": "warn",
+        "no-alert": "warn",
+        "no-constructor-return": "error",
+        "no-else-return": "warn",
+        "no-eval": "error",
+        "no-floating-decimal": "error",
+        "no-implicit-coercion": "error",
+        "no-proto": "error",
+        "no-return-assign": "error",
+        "no-return-await": "error",
+        "no-self-compare": "error",
+        "no-sequences": "error",
+        "no-useless-call": "error",
+        "require-await": "warn",
+        "yoda": "warn",
+        "no-labels": "error",
+        "func-names": ["error", "as-needed"],
+        "no-continue": "warn",
+        "no-lonely-if": "error",
+        "prefer-exponentiation-operator": "warn",
+        "prefer-object-spread": "error",
+        "no-useless-rename": "error",
+        "no-var": "error",
+        "prefer-arrow-callback": "warn",
+        "prefer-const": "error",
+        "prefer-destructuring": "warn",
+        "prefer-rest-params": "error",
+        "prefer-spread": "error",
+        "prefer-template": "error"
+    }
+}

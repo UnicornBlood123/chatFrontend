@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useEffect, useRef } from "react";
+import {
+  ChangeEvent,
+  ReactElement,
+  useEffect,
+  useRef,
+  KeyboardEvent,
+} from "react";
 import * as S from "./ChatInput.styles";
 import {
   SmileOutlined,
@@ -8,7 +14,7 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons/lib/icons";
 import EmojiPicker, { IEmojiData } from "emoji-picker-react";
-// @ts-ignore
+// @ts-expect-error" @types/navjobs отсутсвует
 import { UploadField } from "@navjobs/upload";
 import { TextAreaRef } from "antd/es/input/TextArea";
 import UploadFiles from "../UploadFiles/UploadFiles";
@@ -37,48 +43,55 @@ const ChatInput = ({
   onStopRecording,
   onRecord,
   isLoadingAudio,
-}: IChatInputComponent) => {
+}: IChatInputComponent): ReactElement => {
   const inputRef = useRef<TextAreaRef>(null);
 
   useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      emojiRef.current &&
+    const onClick = (e: MouseEvent): void => {
+      if (
+        emojiRef.current &&
         emojiButtonRef.current &&
         !inputRef.current?.resizableTextArea?.textArea.contains(
           e.target as Node
         ) &&
         !emojiButtonRef.current?.contains(e.target as Node) &&
-        !emojiRef.current?.contains(e.target as Node) &&
+        !emojiRef.current?.contains(e.target as Node)
+      ) {
         setEmojiPickerVisible(false);
+      }
     };
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);
   }, []);
 
-  const handleSendMessage = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleSendMessage = (e: KeyboardEvent<HTMLTextAreaElement>): void => {
     if (e.keyCode === 13 && !e.shiftKey) {
       onSendMessage(value, dialogId, attachments);
       e.preventDefault();
     }
   };
 
-  const handleInputMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleInputMessage = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     socket.emit("DIALOGS:TYPING", { dialogId: dialogId, typingUser: user });
     setValue(e.target.value);
   };
 
-  const handleButtonSendMessage = () => {
+  const handleButtonSendMessage = (): void => {
     onSendMessage(value, dialogId, attachments);
   };
 
-  const selectFiles = (files: File) => {
+  const selectFiles = (files: File): void => {
     onSelectFiles(files);
   };
 
+  const sendMessage = (): void => {
+    onSendMessage(value, dialogId, attachments);
+  };
+
   const onEmojiClick = (
-    event: React.MouseEvent<Element, MouseEvent>,
+    event: React.MouseEvent,
     { emoji }: IEmojiData
-  ) => {
+  ): void => {
     if (inputRef.current) {
       inputRef.current.focus();
       const start = value.substring(
@@ -94,15 +107,18 @@ const ChatInput = ({
   };
 
   useEffect(() => {
-    inputRef.current &&
+    if (inputRef.current) {
       inputRef.current?.resizableTextArea?.textArea.setSelectionRange(
         cursorPosition,
         cursorPosition
       );
+    }
   }, [cursorPosition]);
 
   useEffect(() => {
-    inputRef.current && emojiPickerVisible && inputRef.current.focus();
+    if (inputRef.current && emojiPickerVisible) {
+      inputRef.current.focus();
+    }
   }, [emojiPickerVisible]);
 
   return (
@@ -181,10 +197,7 @@ const ChatInput = ({
                 {isLoadingAudio ? (
                   <LoadingOutlined />
                 ) : (
-                  <S.ChatButton
-                    onClick={(e) => onSendMessage(value, dialogId, attachments)}
-                    icon={<SendOutlined />}
-                  />
+                  <S.ChatButton onClick={sendMessage} icon={<SendOutlined />} />
                 )}
               </S.ChatInputRecording>
             )}

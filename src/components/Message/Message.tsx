@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import { ReactElement, useState } from "react";
 import * as S from "./Message.styles";
 import { Time, IconRead, MessageAudio } from "../index";
 import Avatar from "../Avatar/Avatar";
 import { IMessageComponent } from "./Message.interfaces";
 import { EllipsisOutlined } from "@ant-design/icons/lib/icons";
 import { Button, Popover } from "antd";
-// @ts-ignore
 import emoji from "react-easy-emoji";
 import { IAttachment } from "../../redux/interfaces/messages.interfaces";
 
@@ -19,22 +18,22 @@ const Message = ({
   attachments,
   isTyping,
   onRemoveMessage,
-}: IMessageComponent) => {
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
+}: IMessageComponent): ReactElement => {
+  const [previewVisible, setPreviewVisible] = useState<boolean>(false);
+  const [previewImage, setPreviewImage] = useState<string>("");
 
-  const onClickImage = (url: string) => {
+  const onClickImage = (url: string): void => {
     setPreviewImage(url);
     setPreviewVisible(true);
   };
 
-  const handleCancelImage = () => setPreviewVisible(false);
+  const handleCancelImage = (): void => setPreviewVisible(false);
 
-  const getAudio = () => {
+  const getAudio = (): IAttachment => {
     return attachments.filter((el) => el.ext === "webm")[0];
   };
 
-  const clickImage = (item: IAttachment) => {
+  const clickImage = (item: IAttachment): void => {
     onClickImage(item.url);
   };
 
@@ -42,7 +41,7 @@ const Message = ({
     <S.Message
       isMe={isMe}
       isTyping={isTyping}
-      audio={getAudio() !== undefined}
+      audio={Boolean(getAudio())}
       isImage={attachments && attachments.length === 1 && !getAudio() && !text}
     >
       <S.MessageContent>
@@ -99,9 +98,9 @@ const Message = ({
               )}
               {attachments && !getAudio() && (
                 <S.MessageAttachments>
-                  {attachments.map((item, i) => (
+                  {attachments.map((item) => (
                     <S.MessageAttachmentsItem
-                      key={i}
+                      key={item._id}
                       onClick={clickImage.bind(this, item)}
                     >
                       <img src={item.url} alt={item.filename} />
