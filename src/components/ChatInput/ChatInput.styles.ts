@@ -19,6 +19,7 @@ export const ChatRecordStatus = styled.div`
 export const ChatButton = styled(Button)`
   border: 0;
   box-shadow: none;
+  background: none;
   width: 20px;
   opacity: 0.6;
   transition: opacity 0.15s ease-in-out;
@@ -29,10 +30,14 @@ export const ChatButton = styled(Button)`
   &:focus,
   &:active {
     opacity: 1;
+    background: none;
     color: ${({ theme: { colors } }): string => colors.black};
   }
   span {
     font-size: 20px;
+  }
+  span > svg {
+    fill: ${({ theme: { colors } }): string => colors.black};
   }
 `;
 
@@ -40,7 +45,6 @@ export const ChatInputSend = styled.div`
   align-self: center;
   display: flex;
   align-items: center;
-  width: 20px;
 `;
 
 export const ChatInputSmile = styled.div`
@@ -52,25 +56,7 @@ export const ChatInputSmile = styled.div`
   margin-right: 15px;
 `;
 
-export const ChatButtonSmile = styled(Button)`
-  width: 20px;
-  border: 0;
-  box-shadow: none;
-  opacity: 0.6;
-  transition: opacity 0.15s ease-in-out;
-  &:after {
-    display: none;
-  }
-  &:hover,
-  &:focus,
-  &:active {
-    opacity: 1;
-    color: ${({ theme: { colors } }): string => colors.black};
-  }
-  span {
-    font-size: 20px;
-  }
-`;
+export const ChatButtonSmile = styled(ChatButton)``;
 
 export const ChatInput = styled.div`
   display: flex;
@@ -83,7 +69,7 @@ export const ChatInputWithFiles = styled.div`
   flex-direction: column;
 `;
 
-export const UploadFiels = styled.div`
+export const UploadFiles = styled.div`
   input[type="file"],
   input[type="file"]::-webkit-file-upload-button {
     cursor: pointer;
@@ -96,7 +82,10 @@ export const UploadFiels = styled.div`
   }
 `;
 
-export const ChatInputText = styled(Input.TextArea)``;
+export const ChatInputText = styled(Input.TextArea)`
+  background: ${({ theme: { colors } }): string => colors.white};
+  color: ${({ theme: { colors } }): string => colors.black};
+`;
 
 export const CameraOutlinedStyled = styled(CameraOutlined)`
   opacity: 0.6;
@@ -112,7 +101,6 @@ export const ChatInputActions = styled.div`
   margin-left: 15px;
   justify-content: space-between;
   width: 60px;
-  }
 `;
 
 export const Emoji = styled.div<{
@@ -122,6 +110,12 @@ export const Emoji = styled.div<{
   bottom: 70px;
   z-index: 1;
   display: ${(props): string => (props.emojiPickerVisible ? "" : "none")};
+
+  .emoji-picker-react,
+  .emoji-picker-react input.emoji-search,
+  .emoji-picker-react .emoji-group:before {
+    background: ${({ theme: { colors } }): string => colors.white};
+  }
 `;
 
 export const iframeStyled = styled.iframe`

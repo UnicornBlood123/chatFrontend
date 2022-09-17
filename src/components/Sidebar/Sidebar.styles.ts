@@ -7,6 +7,29 @@ import { Modal } from "antd";
 export const ModalStyled = styled(Modal)`
   position: unset;
   padding: 0;
+
+  .ant-modal-close-icon svg {
+    fill: ${({ theme: { colors } }): string => colors.black};
+  }
+
+  .ant-modal-header {
+    background-color: ${({ theme: { colors } }): string =>
+      colors.background_modal_color};
+    .ant-modal-title {
+      color: ${({ theme: { colors } }): string => colors.black};
+    }
+  }
+  .ant-modal-body {
+    background-color: ${({ theme: { colors } }): string =>
+      colors.background_modal_color};
+    .ant-form-item-label label {
+      color: ${({ theme: { colors } }): string => colors.black};
+    }
+  }
+  .ant-modal-footer {
+    background-color: ${({ theme: { colors } }): string =>
+      colors.background_modal_color};
+  }
 `;
 
 export const TeamOutlinedStyled = styled(TeamOutlined)`
@@ -19,7 +42,10 @@ export const ChatSidebarButton = styled(ChatButton)`
 `;
 
 export const ChatSidebar = styled.div`
-  width: 320px;
+  background-color: ${({ theme: { colors } }): string => colors.white};
+  min-width: 230px;
+  border-radius: 20px 0 0 20px;
+  width: 30%;
   border-right: 1px solid
     ${({ theme: { colors } }): string => colors.bright_grey};
 `;

@@ -50,10 +50,10 @@ const CheckEmailInfo = (): ReactElement => {
       usersApi
         .verifyHash(hash)
         .then(() => {
-          setStatus({ verified: true, checking: false });
+          setStatus({ verified: true, checking: true });
         })
         .catch(() => {
-          setStatus({ verified: false, checking: false });
+          setStatus({ verified: false, checking: true });
         });
     }
   }, []);

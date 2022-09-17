@@ -4,6 +4,7 @@ import "reset-css";
 
 export const Wrapper = styled.div`
   height: 100%;
+  overflow: auto;
   color: ${({ theme: { colors } }): string => colors.black};
   font-size: 14px;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,

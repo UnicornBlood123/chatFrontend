@@ -4,7 +4,7 @@ import { ITheme } from "../../theme/theme.interfaces";
 export const Status = styled.span<{ isOnline: boolean }>`
   position: relative;
   display: inline-block;
-
+  margin-left: 6px;
   &::before {
     position: absolute;
     top: 5px;

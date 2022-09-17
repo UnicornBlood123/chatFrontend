@@ -1,7 +1,7 @@
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
 import * as S from "./UploadFiles.styles";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { IUploadFilesComponent } from "./UploadFiles.interfaces";
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -19,6 +19,10 @@ const UploadFiles = ({
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string>("");
   const [previewTitle, setPreviewTitle] = useState<string>("");
+
+  useEffect(() => {
+    console.log("2");
+  });
 
   const handleCancel = (): void => setPreviewVisible(false);
 

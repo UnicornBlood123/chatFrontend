@@ -48,9 +48,7 @@ export const MessageAvatar = styled.div`
 `;
 
 export const MessageText = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
+  width: 80%;
 `;
 
 export const DialogItemAvatar = styled.div<{
@@ -97,6 +95,7 @@ export const DialogItem = styled.div<{ isSelected: boolean }>`
     cursor: pointer;
     ${DialogActionsButton} {
       display: block;
+      background: none;
     }
   }
 
@@ -104,7 +103,7 @@ export const DialogItem = styled.div<{ isSelected: boolean }>`
     isSelected
       ? css`
           background-color: ${({ theme: { colors } }: ITheme): string =>
-            colors.background_color};
+            colors.background_dialogItem_color};
         `
       : css``};
 `;
@@ -118,6 +117,7 @@ export const DialogItemInfo = styled.div`
 
 export const DialogItemInfoTop = styled.div`
   display: flex;
+
   b {
     font-weight: 500;
     font-size: 14px;
@@ -137,7 +137,6 @@ export const DialogItemInfoBottom = styled.div`
     opacity: 0.75;
     text-overflow: ellipsis;
     overflow: hidden;
-    width: 180px;
     height: 1.08em;
     white-space: nowrap;
   }

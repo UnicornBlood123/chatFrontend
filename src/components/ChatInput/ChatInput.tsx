@@ -152,7 +152,7 @@ const ChatInput = ({
                   value={value}
                 />
                 <S.ChatInputActions>
-                  <S.UploadFiels>
+                  <S.UploadFiles>
                     <UploadField
                       onFiles={selectFiles}
                       uploadProps={{
@@ -162,7 +162,7 @@ const ChatInput = ({
                     >
                       <S.CameraOutlinedStyled />
                     </UploadField>
-                  </S.UploadFiels>
+                  </S.UploadFiles>
                   <S.ChatInputSend>
                     {value || attachments.length > 0 ? (
                       <S.ChatButton

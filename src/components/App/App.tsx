@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, useEffect } from "react";
+import { FunctionComponent, ReactElement, useEffect, useState } from "react";
 import * as S from "./App.styles";
 import { Auth, Home } from "../../pages";
 import { Route, Routes, useNavigate } from "react-router";
@@ -8,14 +8,21 @@ import { IState } from "../../redux/interfaces/state.interfaces";
 import { dialogsActions, usersActions } from "../../redux/actions";
 import { IUserLogin } from "../../redux/interfaces/users.interfaces";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import { ThemeProvider } from "styled-components";
+import { darkTheme, lightTheme, ThemeContext } from "../../theme/theme";
+import GlobalStyle from "../../globalStyles";
 
 const App = (): ReactElement => {
   const userLogin: IUserLogin = useSelector((state: IState) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [theme, setTheme] = useState(lightTheme);
+  const isDarkTheme = theme === darkTheme;
 
   useEffect(() => {
-    dispatch(usersActions.fetchUserData() as any);
+    if (userLogin.isAuth) {
+      dispatch(usersActions.fetchUserData() as any);
+    }
   }, []);
 
   useEffect(() => {
@@ -34,39 +41,45 @@ const App = (): ReactElement => {
   }, [navigate]);
 
   return (
-    <S.Wrapper>
-      <Routes>
-        <Route
-          path={Paths.EMPTY}
-          element={
-            <PrivateRoute
-              user={userLogin}
-              component={Home as FunctionComponent}
+    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+      <GlobalStyle />
+      <ThemeContext.Provider
+        value={{ isDarkTheme, lightTheme, darkTheme, setTheme }}
+      >
+        <S.Wrapper>
+          <Routes>
+            <Route
+              path={Paths.EMPTY}
+              element={
+                <PrivateRoute
+                  user={userLogin}
+                  component={Home as FunctionComponent}
+                />
+              }
             />
-          }
-        />
-        <Route
-          path={Paths.HOME}
-          element={
-            <PrivateRoute
-              user={userLogin}
-              component={Home as FunctionComponent}
+            <Route
+              path={Paths.HOME}
+              element={
+                <PrivateRoute
+                  user={userLogin}
+                  component={Home as FunctionComponent}
+                />
+              }
             />
-          }
-        />
-        <Route
-          path={Paths.DIALOGID}
-          element={
-            <PrivateRoute
-              user={userLogin}
-              component={Home as FunctionComponent}
+            <Route
+              path={Paths.DIALOGID}
+              element={
+                <PrivateRoute
+                  user={userLogin}
+                  component={Home as FunctionComponent}
+                />
+              }
             />
-          }
-        />
-        <Route path={Paths.OTHER} element={<Auth />} />
-      </Routes>
-    </S.Wrapper>
+            <Route path={Paths.OTHER} element={<Auth />} />
+          </Routes>
+        </S.Wrapper>
+      </ThemeContext.Provider>
+    </ThemeProvider>
   );
 };
-
 export default App;

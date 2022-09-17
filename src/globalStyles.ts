@@ -23,6 +23,18 @@ html, body, #root {
 * {
     outline: none;
 }
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: ${({ theme: { colors } }: ITheme): string =>
+      colors.dark_grey};
+}
+
 `;
 
 export default GlobalStyle;

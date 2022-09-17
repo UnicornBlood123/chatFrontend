@@ -9,12 +9,22 @@ export const ChatSidebarButton = styled(ChatButton)`
 export const Chat = styled.div`
   display: flex;
   height: 100%;
-  width: 1140px;
+  min-height: 300px;
+  padding: 20px 0;
+  min-width: fit-content;
+  max-width: 1200px;
   margin: 0 auto;
-  background-color: ${({ theme: { colors } }):string => colors.white};
-  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.04204);
+  @media (max-width: 1230px) {
+    margin: 0 20px 0;
+  }
 `;
 
 export const ChatDialog = styled.div`
-  flex: 1;
+  position: relative;
+  background-color: ${({ theme: { colors } }): string => colors.white};
+  border-radius: 0 20px 20px 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 480px;
+  width: 100%;
 `;

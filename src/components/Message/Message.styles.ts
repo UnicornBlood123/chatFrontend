@@ -29,7 +29,8 @@ export const MessageActions = styled.div`
 `;
 
 export const MessageActionsButton = styled(ChatSidebarButton)`
-  display: none;
+  visibility: hidden;
+  background: none;
   transform: rotate(90deg);
   span {
     font-size: 14px;
@@ -140,7 +141,7 @@ export const MessageContent = styled.div`
   position: relative;
   &:hover {
     ${MessageActionsButton} {
-      display: block;
+      visibility: visible;
     }
   }
 `;
