@@ -11,7 +11,6 @@ const ChatInputSmile = ({
   emojiPickerVisible,
   setEmojiPickerVisible,
   toggleEmojiPickerVisible,
-  value,
   setValue,
   cursorPosition,
   setCursorPosition,
@@ -39,15 +38,19 @@ const ChatInputSmile = ({
     (event: React.MouseEvent, { emoji }: IEmojiData): void => {
       if (inputRef.current) {
         inputRef.current.focus();
-        const start = value.substring(
-          0,
-          Number(inputRef.current?.resizableTextArea?.textArea.selectionStart)
-        );
-        const end = value.substring(
-          Number(inputRef.current?.resizableTextArea?.textArea.selectionStart)
-        );
+        const start = inputRef?.current?.resizableTextArea?.props?.value
+          ?.toString()
+          .substring(
+            0,
+            Number(inputRef.current?.resizableTextArea?.textArea.selectionStart)
+          );
+        const end = inputRef?.current?.resizableTextArea?.props?.value
+          ?.toString()
+          .substring(
+            Number(inputRef.current?.resizableTextArea?.textArea.selectionStart)
+          );
         setValue((start + emoji + end).trim());
-        setCursorPosition(start.length + String(emoji).length);
+        setCursorPosition((start?.length ?? 0) + String(emoji).length);
       }
     },
     []

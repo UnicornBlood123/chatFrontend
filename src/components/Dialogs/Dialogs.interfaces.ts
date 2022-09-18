@@ -8,4 +8,5 @@ export interface IDialogsComponent {
   isLoading: boolean;
   selectDialog: null | string;
   onRemoveDialog: (id: string) => void;
+  getUnreadMessages: (id: string) => number;
 }

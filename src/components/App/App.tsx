@@ -1,10 +1,4 @@
-import {
-  FunctionComponent,
-  MemoExoticComponent,
-  ReactElement,
-  useEffect,
-  useState,
-} from "react";
+import { FunctionComponent, ReactElement, useEffect, useState } from "react";
 import * as S from "./App.styles";
 import { Auth, Home } from "../../pages";
 import { Route, Routes, useNavigate } from "react-router";
@@ -59,7 +53,7 @@ const App = (): ReactElement => {
               element={
                 <PrivateRoute
                   user={userLogin}
-                  component={Home as MemoExoticComponent<FunctionComponent>}
+                  component={Home as FunctionComponent}
                 />
               }
             />
@@ -68,7 +62,7 @@ const App = (): ReactElement => {
               element={
                 <PrivateRoute
                   user={userLogin}
-                  component={Home as MemoExoticComponent<FunctionComponent>}
+                  component={Home as FunctionComponent}
                 />
               }
             />
@@ -77,7 +71,7 @@ const App = (): ReactElement => {
               element={
                 <PrivateRoute
                   user={userLogin}
-                  component={Home as MemoExoticComponent<FunctionComponent>}
+                  component={Home as FunctionComponent}
                 />
               }
             />

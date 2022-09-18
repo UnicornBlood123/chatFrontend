@@ -5,13 +5,15 @@ import { Avatar } from "../Avatar/Avatar.styles";
 import { ChatSidebarButton } from "../../pages/Home/Home.styles";
 
 export const DialogActions = styled.div`
-  width: 18px;
-  height: 18px;
-  padding-left: 4px;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: -18px;
+  top: -2px;
   .ant-btn-icon-only.ant-btn-sm {
-    width: 18px;
-    height: 18px;
-    font-size: 14px;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
   }
 `;
 
@@ -48,7 +50,7 @@ export const MessageAvatar = styled.div`
 `;
 
 export const MessageText = styled.div`
-  width: 80%;
+  flex: 1;
 `;
 
 export const DialogItemAvatar = styled.div<{
@@ -88,7 +90,7 @@ export const DialogItemAvatar = styled.div<{
 export const DialogItem = styled.div<{ isSelected: boolean }>`
   display: flex;
   margin-bottom: 0;
-  padding: 10px 20px;
+  padding: 10px 30px 10px 20px;
 
   &:hover {
     background-color: ${({ theme: { colors } }): string => colors.gray};
@@ -117,7 +119,7 @@ export const DialogItemInfo = styled.div`
 
 export const DialogItemInfoTop = styled.div`
   display: flex;
-
+  position: relative;
   b {
     font-weight: 500;
     font-size: 14px;
@@ -157,5 +159,4 @@ export const DialogItemMessageUnreadCount = styled.div`
   font-size: 11px;
   text-align: center;
   line-height: 17px;
-  box-shadow: 0 0 0 3px ${({ theme: { colors } }): string => colors.white};
 `;

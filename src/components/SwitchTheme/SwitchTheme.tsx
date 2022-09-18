@@ -1,11 +1,12 @@
-import { memo, ReactElement, useContext } from "react";
+import { memo, ReactElement } from "react";
 import * as S from "./SwitchTheme.styles";
-import { ThemeContext } from "../../theme/theme";
 
-const SwitchTheme = (): ReactElement => {
-  const { isDarkTheme, lightTheme, darkTheme, setTheme }: any =
-    useContext(ThemeContext);
-
+const SwitchTheme = ({
+  isDarkTheme,
+  lightTheme,
+  darkTheme,
+  setTheme,
+}: any): ReactElement => {
   const onChange = (checked: boolean): void => {
     if (checked) {
       setTheme(darkTheme);

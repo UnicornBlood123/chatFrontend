@@ -54,11 +54,7 @@ const ChatInput = ({
           <S.ChatInput>
             {!isRecording && !(isLoadingAudio && !isRecording) ? (
               <>
-                <ChatInputSmile
-                  value={value}
-                  setValue={setValue}
-                  inputRef={inputRef}
-                />
+                <ChatInputSmile setValue={setValue} inputRef={inputRef} />
                 <S.ChatInputText
                   ref={inputRef}
                   onChange={handleInputMessage}

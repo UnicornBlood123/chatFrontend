@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { memo, ReactElement, useEffect, useRef, useState } from "react";
 import { Messages as BasicMessages } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { dialogsActions, messagesActions } from "../../redux/actions";
@@ -106,4 +106,4 @@ const Messages = ({ user, inputRef }: IMessagesContainer): ReactElement => {
   );
 };
 
-export default Messages;
+export default memo(Messages);

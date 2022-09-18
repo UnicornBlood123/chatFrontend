@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect, useState } from "react";
 import { Dialogs as BasicDialogs } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { dialogsActions, messagesActions } from "../../redux/actions";
@@ -11,15 +11,26 @@ import { IDialogsContainer } from "./Dialogs.interfaces";
 
 const Dialogs = ({ user }: IDialogsContainer): ReactElement => {
   const dialogs = useSelector((state: IState) => state.dialogs);
+  const messages = useSelector((state: IState) => state.messages.items);
   const [filtered, setFiltered] = useState<IDialogItems[]>([...dialogs.items]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onRemoveDialog = (dialogId: string): void => {
-    dispatch(dialogsActions.removeDialogById(dialogId) as any);
-  };
+  const getUnreadMessages = useCallback(
+    (dialogId: string): number => {
+      return (
+        messages?.filter((el) => el.unread && el.dialog._id === dialogId)
+          ?.length ?? 0
+      );
+    },
+    [navigate, messages]
+  );
 
-  const search = (value: string): void => {
+  const onRemoveDialog = useCallback((dialogId: string): void => {
+    dispatch(dialogsActions.removeDialogById(dialogId) as any);
+  }, []);
+
+  const search = useCallback((value: string): void => {
     if (dialogs.items.length) {
       setFiltered(
         dialogs.items.filter(
@@ -33,7 +44,7 @@ const Dialogs = ({ user }: IDialogsContainer): ReactElement => {
         )
       );
     }
-  };
+  }, []);
 
   useEffect(() => {
     dispatch(dialogsActions.fetchDialogs() as any);
@@ -61,6 +72,7 @@ const Dialogs = ({ user }: IDialogsContainer): ReactElement => {
 
   return (
     <BasicDialogs
+      getUnreadMessages={getUnreadMessages}
       onRemoveDialog={onRemoveDialog}
       isLoading={dialogs.isLoading}
       onSearch={search}

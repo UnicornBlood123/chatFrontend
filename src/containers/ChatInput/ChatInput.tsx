@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { memo, ReactElement, useState } from "react";
 import { ChatInput as BasicChatInput } from "../../components";
 import { messagesActions } from "../../redux/actions";
 import { useSelector } from "react-redux";
@@ -160,4 +160,4 @@ const ChatInput = ({ inputRef, user }: IChatInputContainer): ReactElement => {
   );
 };
 
-export default ChatInput;
+export default memo(ChatInput);

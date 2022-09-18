@@ -4,7 +4,6 @@ import { ChatInputSmile as BasicChatInputSmile } from "../../components";
 
 const ChatInputSmile = ({
   inputRef,
-  value,
   setValue,
 }: IChatInputSmileContainer): ReactElement => {
   const emojiButtonRef = useRef<HTMLDivElement>(null);
@@ -18,7 +17,6 @@ const ChatInputSmile = ({
 
   return (
     <BasicChatInputSmile
-      value={value}
       setValue={setValue}
       inputRef={inputRef}
       emojiButtonRef={emojiButtonRef}

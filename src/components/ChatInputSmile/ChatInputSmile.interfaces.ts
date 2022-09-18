@@ -7,7 +7,6 @@ export interface IChatInputSmileComponent {
   emojiPickerVisible: boolean;
   setEmojiPickerVisible: (bool: boolean) => void;
   toggleEmojiPickerVisible: () => void;
-  value: string;
   setValue: (value: string) => void;
   cursorPosition: number;
   setCursorPosition: (num: number) => void;
