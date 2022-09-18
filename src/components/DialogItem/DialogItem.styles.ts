@@ -146,15 +146,13 @@ export const DialogItemInfoBottom = styled.div`
   }
 `;
 
-export const DialogItemMessageUnreadCount = styled.div`
+export const DialogItemMessageUnread = styled.div`
   background: ${({ theme: { colors } }): string => colors.red};
   font-weight: bold;
   color: ${({ theme: { colors } }): string => colors.white};
   border-radius: 30px;
-  width: 100%;
-  min-width: 18px;
-  max-width: 25px;
-  height: 18px;
+  width: 11px;
+  height: 11px;
   font-size: 11px;
   text-align: center;
   line-height: 17px;

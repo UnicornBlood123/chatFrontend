@@ -1,4 +1,4 @@
-import { ChangeEvent, memo, ReactElement, useCallback } from "react";
+import { ChangeEvent, ReactElement } from "react";
 import * as S from "./Dialogs.styles";
 import { DialogItem } from "../index";
 import { orderBy } from "lodash";
@@ -13,11 +13,10 @@ const Dialogs = ({
   isLoading,
   selectDialog,
   onRemoveDialog,
-  getUnreadMessages,
 }: IDialogsComponent): ReactElement => {
-  const search = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
+  const search = (e: ChangeEvent<HTMLInputElement>): void => {
     onSearch(e.target.value);
-  }, []);
+  };
 
   return (
     <>
@@ -32,7 +31,7 @@ const Dialogs = ({
               selectDialog={selectDialog}
               key={item._id}
               isMe={item.lastMessage.user._id === user._id}
-              unread={getUnreadMessages(item._id)}
+              unread={item.lastMessage.unread}
               message={item.lastMessage}
               user={item.partner._id === user._id ? item.author : item.partner}
               {...item}
@@ -49,4 +48,4 @@ const Dialogs = ({
   );
 };
 
-export default memo(Dialogs);
+export default Dialogs;

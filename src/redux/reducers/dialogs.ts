@@ -40,7 +40,19 @@ const dialogs = (
     case "DIALOGS:SET_ITEMS":
       return { ...state, items: action.payload };
     case "DIALOGS:SET_CURRENT_DIALOG_ID":
-      return { ...state, currentDialogId: action.payload };
+      return {
+        ...state,
+        currentDialogId: action.payload,
+        items: state.items.map((dialog: IDialogItems) => {
+          if (dialog._id === action.payload) {
+            return {
+              ...dialog,
+              lastMessage: { ...dialog.lastMessage, unread: false },
+            };
+          }
+          return dialog;
+        }),
+      };
     case "DIALOGS:SET_IS_LOADING":
       return { ...state, isLoading: action.payload };
     default:

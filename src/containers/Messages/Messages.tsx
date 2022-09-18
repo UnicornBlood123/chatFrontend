@@ -59,16 +59,13 @@ const Messages = ({ user, inputRef }: IMessagesContainer): ReactElement => {
   };
 
   useEffect(() => {
+    if (currentDialogsId) {
+      dispatch(messagesActions.fetchMessages(currentDialogsId) as any);
+    }
     socket.on("DIALOGS:TYPING", toggleIsTyping);
     return () => {
       socket.off("DIALOGS:TYPING", toggleIsTyping);
     };
-  }, [currentDialogsId]);
-
-  useEffect(() => {
-    if (currentDialogsId) {
-      dispatch(messagesActions.fetchMessages(currentDialogsId) as any);
-    }
   }, [currentDialogsId]);
 
   useEffect(() => {

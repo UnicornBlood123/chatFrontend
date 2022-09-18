@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { memo, ReactElement, useEffect } from "react";
 import * as S from "./DialogItem.styles";
 import isToday from "date-fns/isToday";
 import format from "date-fns/format";
@@ -29,6 +29,10 @@ const DialogItem = ({
   const getAudio = (): IAttachment => {
     return message.attachments.filter((el) => el.ext === "webm")[0];
   };
+
+  useEffect(() => {
+    console.log(unread);
+  });
 
   const removeDialog = (): void => {
     onRemoveDialog(_id);
@@ -73,11 +77,7 @@ const DialogItem = ({
               </p>
             </S.MessageText>
             {isMe && <IconRead isRead={!message.unread} />}
-            {!isMe && unread > 0 && (
-              <S.DialogItemMessageUnreadCount>
-                {unread > 9 ? "+9" : unread}
-              </S.DialogItemMessageUnreadCount>
-            )}
+            {!isMe && unread && <S.DialogItemMessageUnread />}
           </S.DialogItemInfoBottom>
         </S.DialogItemInfo>
       </S.DialogItem>
@@ -85,4 +85,4 @@ const DialogItem = ({
   );
 };
 
-export default DialogItem;
+export default memo(DialogItem);

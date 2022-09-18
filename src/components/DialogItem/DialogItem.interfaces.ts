@@ -8,6 +8,6 @@ export interface IDialogItemComponent {
   selectDialog: null | string;
   isMe: boolean;
   text: string;
-  unread: number;
+  unread: boolean;
   onRemoveDialog: (id: string) => void;
 }
