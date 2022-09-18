@@ -1,9 +1,8 @@
-import { memo, ReactElement, useState } from "react";
+import { memo, ReactElement, useEffect, useState } from "react";
 import { ChatInput as BasicChatInput } from "../../components";
 import { messagesActions } from "../../redux/actions";
 import { useSelector } from "react-redux";
 import { IState } from "../../redux/interfaces/state.interfaces";
-import { IDialogItems } from "../../redux/interfaces/dialogs.interfaces";
 import { filesApi } from "../../api";
 import { IAttachment } from "../../redux/interfaces/messages.interfaces";
 import { IChatInputContainer } from "./ChatInput.interfaces";
@@ -11,16 +10,18 @@ import { AxiosResponse } from "axios";
 
 const ChatInput = ({ inputRef, user }: IChatInputContainer): ReactElement => {
   const dialogs = useSelector((state: IState) => state.dialogs);
-  const { currentDialogId } = dialogs;
   const [value, setValue] = useState<string>("");
   const [attachments, setAttachments] = useState<IAttachment[]>([]);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>();
   const [isLoadingAudio, setLoadingAudio] = useState<boolean>(false);
-
-  const [currentDialog] = dialogs.items.filter(
-    (dialog: IDialogItems) => dialog._id === currentDialogId
+  const [currentDialogId, setCurrentDialogId] = useState(
+    dialogs.currentDialogId
   );
+
+  useEffect(() => {
+    setCurrentDialogId(dialogs.currentDialogId);
+  }, [dialogs.currentDialogId]);
 
   const onError = (err: string): void => {
     alert(`Произошла следующая ошибка: ${err}`);
@@ -31,7 +32,7 @@ const ChatInput = ({ inputRef, user }: IChatInputContainer): ReactElement => {
   };
 
   const sendAudio = (file: IAttachment): Promise<AxiosResponse> => {
-    return messagesActions.fetchSendMessage("", currentDialog._id, [
+    return messagesActions.fetchSendMessage("", currentDialogId, [
       {
         _id: file._id,
         filename: file.filename,
@@ -143,7 +144,7 @@ const ChatInput = ({ inputRef, user }: IChatInputContainer): ReactElement => {
   return (
     <BasicChatInput
       user={user}
-      haveCurrentDialog={Boolean(currentDialog)}
+      haveCurrentDialog={Boolean(currentDialogId)}
       onSendMessage={onSendMessage}
       dialogId={currentDialogId}
       inputBlockRef={inputRef}

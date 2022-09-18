@@ -8,8 +8,8 @@ export const DialogActions = styled.div`
   position: absolute;
   width: 20px;
   height: 20px;
-  right: -18px;
-  top: -2px;
+  top: 9px;
+  right: 9px;
   .ant-btn-icon-only.ant-btn-sm {
     width: 20px;
     height: 20px;
@@ -18,9 +18,9 @@ export const DialogActions = styled.div`
 `;
 
 export const DialogActionsButton = styled(ChatSidebarButton)`
-  display: none;
+  display: block;
   transform: rotate(90deg);
-  box-shadow: none;
+  visibility: hidden;
   &:hover {
     background-color: ${({ theme: { colors } }): string => colors.gray};
   }
@@ -28,6 +28,7 @@ export const DialogActionsButton = styled(ChatSidebarButton)`
 `;
 
 export const LinkStyled = styled(Link)`
+  position: relative;
   color: ${({ theme: { colors } }: ITheme): string => colors.black};
   &:hover {
     color: ${({ theme: { colors } }: ITheme): string => colors.black};
@@ -51,6 +52,8 @@ export const MessageAvatar = styled.div`
 
 export const MessageText = styled.div`
   flex: 1;
+  overflow: hidden;
+  margin-right: 5px;
 `;
 
 export const DialogItemAvatar = styled.div<{
@@ -96,7 +99,7 @@ export const DialogItem = styled.div<{ isSelected: boolean }>`
     background-color: ${({ theme: { colors } }): string => colors.gray};
     cursor: pointer;
     ${DialogActionsButton} {
-      display: block;
+      visibility: visible;
       background: none;
     }
   }
@@ -111,19 +114,19 @@ export const DialogItem = styled.div<{ isSelected: boolean }>`
 `;
 
 export const DialogItemInfo = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
+  width: 100%;
 `;
 
 export const DialogItemInfoTop = styled.div`
   display: flex;
-  position: relative;
   b {
+    flex: 1;
     font-weight: 500;
     font-size: 14px;
-    flex: 1;
     margin-bottom: 6px;
   }
   span {
@@ -134,20 +137,16 @@ export const DialogItemInfoTop = styled.div`
 export const DialogItemInfoBottom = styled.div`
   display: flex;
   flex-direction: row;
-  position: relative;
+  align-items: end;
   p {
+    overflow: hidden;
     opacity: 0.75;
     text-overflow: ellipsis;
-    overflow: hidden;
-    height: 1.08em;
     white-space: nowrap;
   }
 `;
 
 export const DialogItemMessageUnreadCount = styled.div`
-  position: absolute;
-  right: 0;
-  bottom: 0;
   background: ${({ theme: { colors } }): string => colors.red};
   font-weight: bold;
   color: ${({ theme: { colors } }): string => colors.white};

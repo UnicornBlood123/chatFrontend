@@ -73,7 +73,7 @@ const DialogItem = ({
               </p>
             </S.MessageText>
             {isMe && <IconRead isRead={!message.unread} />}
-            {unread > 0 && (
+            {!isMe && unread > 0 && (
               <S.DialogItemMessageUnreadCount>
                 {unread > 9 ? "+9" : unread}
               </S.DialogItemMessageUnreadCount>

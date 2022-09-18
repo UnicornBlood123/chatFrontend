@@ -23,7 +23,7 @@ const Dialogs = ({ user }: IDialogsContainer): ReactElement => {
           ?.length ?? 0
       );
     },
-    [navigate, messages]
+    [navigate, messages, dialogs]
   );
 
   const onRemoveDialog = useCallback((dialogId: string): void => {

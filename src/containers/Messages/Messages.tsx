@@ -13,14 +13,26 @@ const Messages = ({ user, inputRef }: IMessagesContainer): ReactElement => {
   const dispatch = useDispatch();
   const messages = useSelector((state: IState) => state.messages);
   const dialogs = useSelector((state: IState) => state.dialogs);
-  const currentDialogsId = dialogs.currentDialogId;
+  const [currentDialogsId, setCurrentDialogsId] = useState(
+    dialogs.currentDialogId
+  );
+  const [currentDialog, setCurrentDialog] = useState(
+    dialogs.items.find(
+      (dialog: IDialogItems) => dialog._id === currentDialogsId
+    )
+  );
   const messagesRef = useRef<HTMLDivElement>(null);
   const [isTyping, setIsTyping] = useState<boolean>(false);
   let interval: ReturnType<typeof setTimeout>;
 
-  const [currentDialog] = dialogs.items.filter(
-    (dialog: IDialogItems) => dialog._id === currentDialogsId
-  );
+  useEffect(() => {
+    setCurrentDialogsId(dialogs.currentDialogId);
+    setCurrentDialog(
+      dialogs.items.find(
+        (dialog: IDialogItems) => dialog._id === currentDialogsId
+      )
+    );
+  }, [dialogs.currentDialogId]);
 
   const getPartner = (): IUser => {
     return currentDialog
@@ -30,8 +42,14 @@ const Messages = ({ user, inputRef }: IMessagesContainer): ReactElement => {
       : user;
   };
 
-  const toggleIsTyping = ({ typingUser }: { typingUser: IUser }): void => {
-    if (user._id !== typingUser._id) {
+  const toggleIsTyping = ({
+    typingUser,
+    dialogId,
+  }: {
+    typingUser: IUser;
+    dialogId: string;
+  }): void => {
+    if (user._id !== typingUser._id && currentDialogsId === dialogId) {
       setIsTyping(true);
       clearTimeout(interval);
       interval = setTimeout(() => {
@@ -45,7 +63,7 @@ const Messages = ({ user, inputRef }: IMessagesContainer): ReactElement => {
     return () => {
       socket.off("DIALOGS:TYPING", toggleIsTyping);
     };
-  }, []);
+  }, [currentDialogsId]);
 
   useEffect(() => {
     if (currentDialogsId) {
@@ -57,7 +75,7 @@ const Messages = ({ user, inputRef }: IMessagesContainer): ReactElement => {
     if (messagesRef.current) {
       messagesRef.current.scrollTo(0, messagesRef.current.scrollHeight);
     }
-  }, [messages, isTyping]);
+  }, [messages]);
 
   useEffect(() => {
     socket.on("SERVER:NEW_MESSAGE", (data) => {
@@ -93,7 +111,7 @@ const Messages = ({ user, inputRef }: IMessagesContainer): ReactElement => {
 
   return (
     <BasicMessages
-      haveCurrentDialog={Boolean(currentDialog)}
+      haveCurrentDialog={Boolean(currentDialogsId)}
       items={messages.items}
       isLoading={messages.isLoading}
       blockRef={messagesRef}

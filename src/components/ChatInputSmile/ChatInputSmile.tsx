@@ -30,8 +30,17 @@ const ChatInputSmile = ({
         setEmojiPickerVisible(false);
       }
     };
+    const onKeyDown = (e: KeyboardEvent): void => {
+      if (e.key === "Enter") {
+        setEmojiPickerVisible(false);
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
     document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+    return () => {
+      document.removeEventListener("click", onClick);
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, []);
 
   const onEmojiClick = useCallback(
