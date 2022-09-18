@@ -10,4 +10,5 @@ export { default as Status } from "./Status/Status";
 export { default as Avatar } from "./Avatar/Avatar";
 export { default as IconRead } from "./IconRead/IconRead";
 export { default as ChatInput } from "./ChatInput/ChatInput";
+export { default as ChatInputSmile } from "./ChatInputSmile/ChatInputSmile";
 export { default as Sidebar } from "./Sidebar/Sidebar";

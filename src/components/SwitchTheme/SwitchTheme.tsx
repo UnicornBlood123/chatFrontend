@@ -1,4 +1,4 @@
-import { ReactElement, useContext } from "react";
+import { memo, ReactElement, useContext } from "react";
 import * as S from "./SwitchTheme.styles";
 import { ThemeContext } from "../../theme/theme";
 
@@ -17,4 +17,4 @@ const SwitchTheme = (): ReactElement => {
   return <S.SwitchStyled defaultChecked={isDarkTheme} onChange={onChange} />;
 };
 
-export default SwitchTheme;
+export default memo(SwitchTheme);

@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactElement, useState } from "react";
+import { ChangeEvent, memo, ReactElement, useState } from "react";
 import { Sidebar as BasicSidebar } from "../../components";
 import { IUser } from "../../redux/interfaces/users.interfaces";
 import { dialogsApi, usersApi } from "../../api";
@@ -80,4 +80,4 @@ const Sidebar = ({ user }: ISidebarContainer): ReactElement => {
     />
   );
 };
-export default Sidebar;
+export default memo(Sidebar);

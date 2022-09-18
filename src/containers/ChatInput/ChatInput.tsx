@@ -1,4 +1,4 @@
-import { ReactElement, useRef, useState } from "react";
+import { ReactElement, useState } from "react";
 import { ChatInput as BasicChatInput } from "../../components";
 import { messagesActions } from "../../redux/actions";
 import { useSelector } from "react-redux";
@@ -12,11 +12,7 @@ import { AxiosResponse } from "axios";
 const ChatInput = ({ inputRef, user }: IChatInputContainer): ReactElement => {
   const dialogs = useSelector((state: IState) => state.dialogs);
   const { currentDialogId } = dialogs;
-  const emojiButtonRef = useRef<HTMLDivElement>(null);
-  const emojiRef = useRef<HTMLDivElement>(null);
-  const [emojiPickerVisible, setEmojiPickerVisible] = useState<boolean>(false);
   const [value, setValue] = useState<string>("");
-  const [cursorPosition, setCursorPosition] = useState<number>(0);
   const [attachments, setAttachments] = useState<IAttachment[]>([]);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>();
@@ -84,10 +80,6 @@ const ChatInput = ({ inputRef, user }: IChatInputContainer): ReactElement => {
     }
   };
 
-  const toggleEmojiPickerVisible = (): void => {
-    setEmojiPickerVisible(!emojiPickerVisible);
-  };
-
   const onUploadFile = (file: File, uid: number | string): void => {
     filesApi.upload(file).then(({ data }) => {
       setAttachments((prevState) => {
@@ -144,7 +136,6 @@ const ChatInput = ({ inputRef, user }: IChatInputContainer): ReactElement => {
     ) {
       messagesActions.fetchSendMessage(value, dialogId, attachments);
       setValue("");
-      setEmojiPickerVisible(false);
       setAttachments([]);
     }
   };
@@ -156,15 +147,8 @@ const ChatInput = ({ inputRef, user }: IChatInputContainer): ReactElement => {
       onSendMessage={onSendMessage}
       dialogId={currentDialogId}
       inputBlockRef={inputRef}
-      emojiButtonRef={emojiButtonRef}
-      emojiRef={emojiRef}
-      emojiPickerVisible={emojiPickerVisible}
-      setEmojiPickerVisible={setEmojiPickerVisible}
-      toggleEmojiPickerVisible={toggleEmojiPickerVisible}
       value={value}
       setValue={setValue}
-      cursorPosition={cursorPosition}
-      setCursorPosition={setCursorPosition}
       attachments={attachments}
       setAttachments={setAttachments}
       onSelectFiles={onSelectFiles}

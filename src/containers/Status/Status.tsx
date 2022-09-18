@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { memo, ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { Status as BaseStatus } from "../../components";
 import { IState } from "../../redux/interfaces/state.interfaces";
@@ -32,4 +32,4 @@ const Status = ({ user }: IStatusContainer): ReactElement => {
   );
 };
 
-export default Status;
+export default memo(Status);

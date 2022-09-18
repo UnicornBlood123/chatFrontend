@@ -1,4 +1,4 @@
-import { ReactElement, useRef } from "react";
+import { memo, ReactElement, useRef } from "react";
 import * as S from "./Home.styles";
 import { ChatInput, Messages, Status } from "../../containers";
 import { Sidebar } from "../../containers";
@@ -23,4 +23,4 @@ const Home = ({ user }: HomeInterfaces): ReactElement => {
   );
 };
 
-export default Home;
+export default memo(Home);
